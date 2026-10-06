@@ -161,7 +161,9 @@ def exercise():
         index = len(events)
         browser_post(runtime.NODES[device][0], event)
         wait_for(lambda item: item["id"] == event["id"], index)
-    check("all actuator state envelopes reach bus")
+        if device == "rover-1":
+            decision("arrived", 2, index, "reached")
+    check("all actuator state envelopes reach bus; rover arrival closes the job")
 
     index = len(events)
     invalid = {"v": 1, "id": str(uuid.uuid4()), "ts": stamp(), "from": "camera-1", "kind": "recognition",

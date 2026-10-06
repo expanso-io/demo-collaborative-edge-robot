@@ -13,9 +13,11 @@ let unclear = !$tick && ($card || $mic) && (!$valid || $e.body.value == null)
 let go = $mic && $valid && $e.body.value.or("") == "go"
 let blocked = $now - $s.last_stop < 1500
 let due = $tick && $s.pending > 0 && $now >= $s.pending && !$blocked
+# The rover's own state report closes the job: arrival is what it measured.
+let arrived = $state && $e.from.or("") == "rover-1" && $e.body.phase.or("") == "arrived" && $e.body.station == $s.destination && $s.phase == "moving"
 root.saved = $s
 root.action = ""
-root.emit = (!$tick && !$state && !($card && $valid && !$changed_card && $e.body.value != null)) || $due
+root.emit = (!$tick && !$state && !($card && $valid && !$changed_card && $e.body.value != null)) || $due || $arrived
 root.saved = if $stop {
   $s.assign({"phase":"paused", "reason":"stop wins", "pending":0, "last_stop":$now})
 } else if $unclear {
@@ -32,5 +34,7 @@ root.saved = if $stop {
   $s.assign({"reason":"checking stop window", "pending":if $s.pending > 0 { $s.pending } else { $now + 1500 }})
 } else if $due {
   $s.assign({"phase":"moving", "reason":"go accepted", "pending":0})
+} else if $arrived {
+  $s.assign({"phase":"arrived", "reason":"rover reached the station"})
 } else { $s }
 root.action = if $stop || ($go && $blocked) { "pause" } else if $unclear || $changed_card { "hold" } else if $due { "move_to" } else { "" }
