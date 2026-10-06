@@ -68,4 +68,4 @@ There was no OPTIONS request. The browser error command returned no page errors.
 
 This proves local Edge pipeline execution, coordination, message transport, browser CORS, and process cleanup. It does not claim webcam or microphone inference quality, rendered stage usability, real hardware motion, hosted CI, or a completed integrated public-demo review. Those belong to the other blocks and the integration pass.
 
-`scripts/run` launches the block at the contracted endpoints. Browser POSTs must retain the agreed `text/plain` content type while sending a JSON body. The coordinator intentionally delays go by 1.5 seconds. The architecture document describes replay, reset, validation acknowledgements, and transport limits.
+`just up` launches the block at the contracted endpoints. Browser POSTs must retain the agreed `text/plain` content type while sending a JSON body. The coordinator intentionally delays go by 1.5 seconds. The architecture document describes replay, reset, validation acknowledgements, and transport limits.

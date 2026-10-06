@@ -66,19 +66,19 @@ The in-memory replay buffer retains the most recent 10,000 envelopes. `Last-Even
 Install `expanso-edge` and `uv` before going offline. The launcher fetches no packages, models, or credentials at runtime.
 
 ```sh
-scripts/run
+just up
 ```
 
-The launcher prints the URL after all six jobs listen. It starts with fresh project-local execution state and no selected destination. Ctrl-C stops its children and servers. Another terminal can run:
+The launcher prints the URL after all six jobs listen. It starts with fresh project-local execution state and no selected destination. To stop every node and server it started, and confirm the ports are free:
 
 ```sh
-scripts/stop
+just down
 ```
 
 To change the confidence threshold:
 
 ```sh
-CONFIDENCE_THRESHOLD=0.90 scripts/run
+CONFIDENCE_THRESHOLD=0.90 just up
 ```
 
 Run fixtures with no demo already listening:

@@ -92,7 +92,7 @@ To inspect the example:
 
 ```sh
 just up
-open -a "Google Chrome" http://127.0.0.1:4180/example.html
+open http://127.0.0.1:4180/example.html
 ```
 
 Finish with `just down`. The physical camera, live microphone in the venue,
