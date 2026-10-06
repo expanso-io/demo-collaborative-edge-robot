@@ -1,0 +1,104 @@
+[
+  {
+    "file": "card-1-clear.ppm",
+    "value": 1,
+    "min": 0.8,
+    "max": 1
+  },
+  {
+    "file": "card-1-distance.ppm",
+    "value": 1,
+    "min": 0.8,
+    "max": 1
+  },
+  {
+    "file": "card-1-angle.ppm",
+    "value": 1,
+    "min": 0.8,
+    "max": 1
+  },
+  {
+    "file": "card-1-angle-distance.ppm",
+    "value": 1,
+    "min": 0.8,
+    "max": 1
+  },
+  {
+    "file": "card-1-partly-covered.ppm",
+    "value": null,
+    "min": 0,
+    "max": 0.799
+  },
+  {
+    "file": "card-1-covered-digit.ppm",
+    "value": null,
+    "min": 0,
+    "max": 0.799
+  },
+  {
+    "file": "card-1-blurred.ppm",
+    "value": null,
+    "min": 0,
+    "max": 0.799
+  },
+  {
+    "file": "card-1-dim.ppm",
+    "value": 1,
+    "min": 0.8,
+    "max": 1
+  },
+  {
+    "file": "card-2-clear.ppm",
+    "value": 2,
+    "min": 0.8,
+    "max": 1
+  },
+  {
+    "file": "card-2-distance.ppm",
+    "value": 2,
+    "min": 0.8,
+    "max": 1
+  },
+  {
+    "file": "card-2-angle.ppm",
+    "value": 2,
+    "min": 0.8,
+    "max": 1
+  },
+  {
+    "file": "card-2-angle-distance.ppm",
+    "value": 2,
+    "min": 0.8,
+    "max": 1
+  },
+  {
+    "file": "card-2-partly-covered.ppm",
+    "value": null,
+    "min": 0,
+    "max": 0.799
+  },
+  {
+    "file": "card-2-covered-digit.ppm",
+    "value": null,
+    "min": 0,
+    "max": 0.799
+  },
+  {
+    "file": "card-2-blurred.ppm",
+    "value": null,
+    "min": 0,
+    "max": 0.799
+  },
+  {
+    "file": "card-2-dim.ppm",
+    "value": 2,
+    "min": 0.8,
+    "max": 1
+  },
+  {
+    "file": "blank.ppm",
+    "value": null,
+    "min": 0,
+    "max": 0.799
+  }
+]
