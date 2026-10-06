@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Camera device check</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font:
+        17px/1.5 system-ui,
+        sans-serif;
+      background: #f5f3ed;
+      color: #202824;
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      background: #18201d;
+      color: #f5f3ed;
+    }
+    body {
+      max-width: 740px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 1.6rem;
+    }
+    button,
+    input {
+      font: inherit;
+      max-width: 100%;
+    }
+    button {
+      padding: 8px 12px;
+      margin: 0 8px 12px 0;
+      cursor: pointer;
+    }
+    pre {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: 0.85rem;
+    }
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
+    a {
+      color: inherit;
+    }
+  </style>
+  <h1>Camera device check</h1>
+  <p>Print a card at actual size. Keep its frame in view and hold it steady.</p>
+  <button id="start">Start camera</button>
+  <button id="stop">Stop camera</button>
+  <button id="theme">Dark mode</button>
+  <div id="camera"></div>
+  <p>
+    <a href="../../docs/cards/card-1.svg">Print card 1</a> ·
+    <a href="../../docs/cards/card-2.svg">Print card 2</a>
+  </p>
+  <h2>Check an image locally</h2>
+  <label
+    >Card photograph <input id="image" type="file" accept="image/*"
+  /></label>
+  <canvas id="fixture" hidden></canvas>
+  <p id="image-result" role="status"></p>
+  <h2>Latest recognition envelope</h2>
+  <p>
+    This standalone check displays events here. The stage shell supplies
+    delivery to the camera node.
+  </p>
+  <pre id="event">No event yet</pre>
+  <script type="module" src="./preview.js"></script>
+</html>

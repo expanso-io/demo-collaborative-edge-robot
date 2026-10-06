@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM"],
+    "types": []
+  },
+  "include": [
+    "../../web/devices/camera.js",
+    "../../web/devices/camera/*.js",
+    "preview.js",
+    "browser-check.js"
+  ]
+}

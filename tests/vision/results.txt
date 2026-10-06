@@ -1,0 +1,49 @@
+(node:85786) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/daaronch/.treehouse/demo-collaborative-edge-robot-2ed161/2/demo-collaborative-edge-robot/web/devices/camera/recognizer.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/daaronch/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+card-1-clear.ppm: value=1 confidence=0.908
+card-1-distance.ppm: value=1 confidence=0.981
+card-1-angle.ppm: value=1 confidence=0.971
+card-1-angle-distance.ppm: value=1 confidence=0.854
+card-1-partly-covered.ppm: value=null confidence=0
+card-1-covered-digit.ppm: value=null confidence=0
+card-1-blurred.ppm: value=null confidence=0.314
+card-1-dim.ppm: value=1 confidence=0.908
+card-2-clear.ppm: value=2 confidence=0.967
+card-2-distance.ppm: value=2 confidence=0.929
+card-2-angle.ppm: value=2 confidence=0.971
+card-2-angle-distance.ppm: value=2 confidence=0.806
+card-2-partly-covered.ppm: value=null confidence=0
+card-2-covered-digit.ppm: value=null confidence=0
+card-2-blurred.ppm: value=null confidence=0
+card-2-dim.ppm: value=2 confidence=0.967
+blank.ppm: value=null confidence=0
+✔ card-1-clear.ppm (23.750666ms)
+✔ card-1-distance.ppm (15.901416ms)
+✔ card-1-angle.ppm (19.402917ms)
+✔ card-1-angle-distance.ppm (15.930875ms)
+✔ card-1-partly-covered.ppm (15.990542ms)
+✔ card-1-covered-digit.ppm (16.976084ms)
+✔ card-1-blurred.ppm (15.277ms)
+✔ card-1-dim.ppm (14.929542ms)
+✔ card-2-clear.ppm (14.876916ms)
+✔ card-2-distance.ppm (13.138875ms)
+✔ card-2-angle.ppm (17.972792ms)
+✔ card-2-angle-distance.ppm (17.729625ms)
+✔ card-2-partly-covered.ppm (14.572ms)
+✔ card-2-covered-digit.ppm (14.944959ms)
+✔ card-2-blurred.ppm (20.604542ms)
+✔ card-2-dim.ppm (13.711791ms)
+✔ blank.ppm (13.543ms)
+✔ envelopes: transitions, throttle, heartbeat, raw accounting (6.887625ms)
+✔ malformed input fails explicitly (0.405875ms)
+✔ two readable cards must not select either destination (37.470125ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 413.139625
