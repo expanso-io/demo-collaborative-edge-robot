@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import net from "node:net";
 import { spawn, execFileSync } from "node:child_process";
 import { once } from "node:events";
 import { fileURLToPath } from "node:url";
@@ -9,18 +10,37 @@ const session = `cr-stage-rendered-${process.pid}`;
 
 let origin;
 
+let ports = {};
+
 const env = {
   ...process.env,
   AGENT_BROWSER_HEADED: "false",
-  AGENT_BROWSER_AUTO_CONNECT: "false",
 };
 
+delete env.AGENT_BROWSER_AUTO_CONNECT;
+
+delete env.AGENT_BROWSER_CDP;
+
+delete env.AGENT_BROWSER_PROFILE;
+
 function browser(...args) {
-  return execFileSync("agent-browser", ["--session", session, ...args], {
-    cwd: root,
-    env,
-    encoding: "utf8",
-  }).trim();
+  return execFileSync(
+    "agent-browser",
+    [
+      "--session",
+      session,
+      "--auto-connect",
+      "false",
+      "--headed",
+      "false",
+      ...args,
+    ],
+    {
+      cwd: root,
+      env,
+      encoding: "utf8",
+    },
+  ).trim();
 }
 
 function evaluate(script) {
@@ -58,7 +78,7 @@ try {
     }),
   ]);
 
-  ({ origin } = JSON.parse(ready.toString()));
+  ({ origin, ports } = JSON.parse(ready.toString()));
   browser("open", origin);
   browser("wait", "#stage-map");
 
@@ -152,3 +172,19 @@ try {
     }
   }
 }
+
+for (const port of [Number(new URL(origin).port), ...Object.values(ports)]) {
+  await new Promise((resolve, reject) => {
+    const socket = net.connect({ host: "127.0.0.1", port });
+    socket.once("connect", () => {
+      socket.destroy();
+      reject(new Error("Fixture port still listening: " + port));
+    });
+    socket.once("error", (error) => {
+      if (error.code === "ECONNREFUSED") resolve();
+      else reject(error);
+    });
+  });
+}
+
+console.log("PASS: every owned fixture port is closed.");

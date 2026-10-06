@@ -138,3 +138,31 @@ test("one source fans ordinary and named SSE messages out, unsubscribes and clos
   bus.close();
   assert.equal(source.closed, true);
 });
+
+test("light and dark text palettes meet WCAG AA on both surfaces", () => {
+  function luminance(hex) {
+    const channels = hex.match(/[a-f0-9]{2}/gi).map((channel) => {
+      const value = parseInt(channel, 16) / 255;
+
+      return value <= 0.04045
+        ? value / 12.92
+        : ((value + 0.055) / 1.055) ** 2.4;
+    });
+
+    return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+  }
+
+  for (const palette of [
+    { text: ["202724", "4b5650"], surfaces: ["f4f4f0", "e6e8e5"] },
+    { text: ["edf1e9", "bcc8bf"], surfaces: ["19201d", "29332d"] },
+  ]) {
+    for (const text of palette.text)
+      for (const surface of palette.surfaces) {
+        const values = [luminance(text), luminance(surface)].sort(
+          (a, b) => a - b,
+        );
+
+        assert.ok((values[1] + 0.05) / (values[0] + 0.05) >= 4.5);
+      }
+  }
+});
