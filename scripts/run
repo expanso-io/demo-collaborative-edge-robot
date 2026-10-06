@@ -1,4 +1,8 @@
 #!/bin/sh
 set -eu
 cd "$(dirname "$0")/.."
+# First run only: install the pinned speech libraries the mic loads offline.
+if [ ! -f web/devices/mic/vendor/tf.min.js ]; then
+  npm ci --prefix web/devices/mic
+fi
 exec uv run --offline --no-project "$PWD/scripts/runtime.py"

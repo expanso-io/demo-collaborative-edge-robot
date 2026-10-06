@@ -22,10 +22,10 @@ When the rover reports that it has reached the station, the job is done.
 ## Run it
 
 You need `expanso-edge`, `uv` and Node.js on a Mac with a webcam and a
-microphone. The first command installs the pinned speech model libraries once.
+microphone. The first run installs the pinned speech libraries once, which
+needs a network connection. After that it runs offline.
 
 ```sh
-npm ci --prefix web/devices/mic
 scripts/run
 ```
 
