@@ -4,6 +4,7 @@ import datetime
 import importlib.util
 import json
 from pathlib import Path
+import signal
 import subprocess
 import threading
 import time
@@ -201,14 +202,14 @@ def main():
             threading.Thread(target=read_stream, daemon=True).start()
             exercise()
         finally:
-            process.terminate()
+            process.send_signal(signal.SIGINT)
             process.wait(timeout=20)
             if stream:
                 stream.close()
         assert process.returncode == 0, (runtime.RUNTIME / "fixture-launch.log").read_text()
         assert not any(runtime.listening(port) for port in runtime.PORTS), "Ports remain after shutdown"
         assert not (runtime.RUNTIME / "launcher.json").exists()
-        check("launcher shutdown releases every declared port")
+        check("Ctrl-C shutdown releases every declared port")
 
 
 if __name__ == "__main__":
