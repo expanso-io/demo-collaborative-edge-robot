@@ -233,10 +233,10 @@
 }</pre></div>
 </div></article>
 </section><section id="run"><h2>Run locally</h2>
-<p>Install Expanso Edge and CLI v2.1.21, just, uv, and Node.js. From this repository, run the fixture check without a camera, microphone or credentials:</p>
+<p>Install the latest Expanso Edge and CLI, plus just, uv, and Node.js. From this repository, run the fixture check without a camera, microphone or credentials:</p>
 <div class="command"><pre id="command-check">just public-check</pre><button id="copy-check" data-copy="command-check">Copy check command</button><span class="feedback" id="copy-check-status" role="status"></span></div>
-<div class="command"><pre id="command-present">just up</pre><button id="copy-present" data-copy="command-present">Copy present command</button><span class="feedback" id="copy-present-status" role="status"></span></div>
-<div class="command"><pre id="command-stop">just down</pre><button id="copy-stop" data-copy="command-stop">Copy stop command</button><span class="feedback" id="copy-stop-status" role="status"></span></div>
+<div class="command"><pre id="command-present">just up-local</pre><button id="copy-present" data-copy="command-present">Copy present command</button><span class="feedback" id="copy-present-status" role="status"></span></div>
+<div class="command"><pre id="command-stop">just down-local</pre><button id="copy-stop" data-copy="command-stop">Copy stop command</button><span class="feedback" id="copy-stop-status" role="status"></span></div>
 <p>The presenter runs at <a href="http://127.0.0.1:4180/">127.0.0.1:4180</a>. Its first start installs pinned speech dependencies. Grant camera and microphone permissions when ready. Stop the presenter before running the fixture suite because both use the local event bus.</p></section>
 <section id="deploy"><h2>Deploy the local jobs</h2><p>Stage 1 runs six Edge nodes on this Mac. The launcher deploys each checked-in job to its matching local node and stops all six with just down. To redeploy the coordinator while the launcher is running:</p>
 <div class="command"><pre id="command-deploy">expanso-cli --endpoint http://127.0.0.1:4200 \

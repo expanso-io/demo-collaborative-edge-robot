@@ -1,6 +1,7 @@
 {
   "name": "drone-2",
   "type": "pipeline",
+  "selector": {"match_labels": {"demo": "collaborative-edge-robot", "device": "drone-2"}},
   "config": {
     "input": {
       "http_server": {

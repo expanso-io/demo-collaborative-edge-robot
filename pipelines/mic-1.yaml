@@ -1,6 +1,7 @@
 {
   "name": "mic-1",
   "type": "pipeline",
+  "selector": {"match_labels": {"demo": "collaborative-edge-robot", "device": "mic-1"}},
   "config": {
     "input": {
       "http_server": {

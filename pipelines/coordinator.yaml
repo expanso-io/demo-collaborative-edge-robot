@@ -1,6 +1,7 @@
 {
   "name": "coordinator",
   "type": "pipeline",
+  "selector": {"match_labels": {"demo": "collaborative-edge-robot", "device": "coordinator"}},
   "config": {
     "input": {
       "broker": {

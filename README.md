@@ -32,13 +32,17 @@ needs a network connection. After that it runs offline.
 
 ```sh
 just up
+just down
 ```
 
-Open the address it prints, `http://127.0.0.1:4180/`. The command returns once
-all six nodes are ready. Run
-`just down` to stop them and verify that the ports are free.
+`just up` deploys or updates all six pipelines in Expanso Cloud. The jobs
+select nodes labelled `demo=collaborative-edge-robot` and their matching
+`device` name, so they cannot land on unrelated nodes. For the
+localhost presenter, run `just up-local`, then open the address it prints,
+`http://127.0.0.1:4180/`. Run `just down-local` to stop it and verify that the
+ports are free.
 
-Everything binds to `127.0.0.1` and runs offline. There are no cloud speech or
+The local mode binds to `127.0.0.1` and runs offline. There are no cloud speech or
 vision services, no API keys, and no network calls once it is running.
 
 ## Present it

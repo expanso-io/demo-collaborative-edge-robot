@@ -3,12 +3,20 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 _default:
     @just --list
 
-# Start six local nodes and the presenter in the background; retain logs.
+# Deploy or update all six pipelines in Expanso Cloud.
 up:
+    bash scripts/cloud-up.sh
+
+# Start six local nodes and the presenter in the background; retain logs.
+up-local:
     uv run --offline --no-project scripts/lifecycle.py up
 
-# Stop only this checkout's launcher and verify the complete demo port range.
+# Stop this demo's six Cloud jobs.
 down:
+    bash scripts/cloud-down.sh
+
+# Stop only this checkout's local launcher and verify the demo port range.
+down-local:
     uv run --offline --no-project scripts/lifecycle.py down
 
 # Stop the presenter before running checks; the pipeline suite owns its ports.
@@ -21,7 +29,7 @@ check:
     uv run --offline --no-project tests/public-contract.py
 
 # Checks need exclusive ports, then leave a fresh presenter ready to record.
-record-check: down check up
+record-check: down-local check up-local
     curl -fsS http://127.0.0.1:4180/ > /dev/null
     @echo "RECORD CHECKLIST"
     @echo "  [ ] Light theme, readable projector text, printed cards ready"

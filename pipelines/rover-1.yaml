@@ -1,6 +1,7 @@
 {
   "name": "rover-1",
   "type": "pipeline",
+  "selector": {"match_labels": {"demo": "collaborative-edge-robot", "device": "rover-1"}},
   "config": {
     "input": {
       "http_server": {

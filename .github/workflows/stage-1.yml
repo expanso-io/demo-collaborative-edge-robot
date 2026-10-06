@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     env:
-      EXPANSO_VERSION: v2.1.21
       PUBLIC_BAR_UV: "0.12.17"
       EDGE_INSTALLER_SHA256: >-
         6dac113fdbaab206aa1c152f6c9a7b6ec4affedb4dce443a06e17516086061a9
@@ -32,7 +31,7 @@ jobs:
           version: ${{ env.PUBLIC_BAR_UV }}
           enable-cache: true
 
-      - name: Install pinned Expanso tools
+      - name: Install latest Expanso tools
         env:
           EXPANSO_DISABLEANALYTICS: "true"
         run: |
@@ -50,16 +49,12 @@ jobs:
             "$CLI_INSTALLER_SHA256  $RUNNER_TEMP/install-cli.sh" \
             | sha256sum -c -
           bash "$RUNNER_TEMP/install-edge.sh" \
-            "$EXPANSO_VERSION" \
             --dir "$RUNNER_TEMP/expanso-bin"
           bash "$RUNNER_TEMP/install-cli.sh" \
-            "$EXPANSO_VERSION" \
             --dir "$RUNNER_TEMP/expanso-bin"
           echo "$RUNNER_TEMP/expanso-bin" >> "$GITHUB_PATH"
-          "$RUNNER_TEMP/expanso-bin/expanso-edge" version \
-            | grep -F "$EXPANSO_VERSION"
-          "$RUNNER_TEMP/expanso-bin/expanso-cli" version \
-            | grep -F "$EXPANSO_VERSION"
+          "$RUNNER_TEMP/expanso-bin/expanso-edge" version
+          "$RUNNER_TEMP/expanso-bin/expanso-cli" version
 
       - name: Install browser and speech test dependencies
         run: |
