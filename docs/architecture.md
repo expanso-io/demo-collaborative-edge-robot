@@ -23,7 +23,7 @@ flowchart LR
     A -->|state| D2
 ```
 
-All addresses bind to `127.0.0.1`. Recognition and state nodes also forward their accepted envelopes to the coordinator. Incoming actuator commands terminate at their device node after publication, preventing a routing loop. Actuator state is visible on the bus; it does not change the five coordination rules.
+All addresses bind to `127.0.0.1`. Recognition and state nodes also forward their accepted envelopes to the coordinator. Incoming actuator commands terminate at their device node after publication, preventing a routing loop. Actuator state is visible on the bus. The rover's arrival report is the one state that changes the coordinator: it closes the job with phase `arrived`.
 
 | Node | Envelope endpoint | Management API |
 |---|---|---|
