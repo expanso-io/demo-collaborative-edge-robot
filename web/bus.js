@@ -1,11 +1,18 @@
 /** One SSE connection shared by device displays, adapters and the reveal. */
-export function createBus(url = 'http://127.0.0.1:4190/stream', Source = EventSource) {
+export function createBus(
+  url = "http://127.0.0.1:4190/stream",
+  Source = EventSource,
+) {
   const listeners = new Map();
   const source = new Source(url);
 
   function emit(kind, value) {
     for (const handler of listeners.get(kind) ?? []) {
-      try { handler(value); } catch (error) { console.error('Bus subscriber failed', error); }
+      try {
+        handler(value);
+      } catch (error) {
+        console.error("Bus subscriber failed", error);
+      }
     }
   }
 
@@ -15,18 +22,20 @@ export function createBus(url = 'http://127.0.0.1:4190/stream', Source = EventSo
 
       if (envelope.v !== 1 || !envelope.kind || !envelope.body) return;
       emit(envelope.kind, envelope);
-      emit('*', envelope);
-    } catch (error) { console.error('Invalid bus envelope', error); }
+      emit("*", envelope);
+    } catch (error) {
+      console.error("Invalid bus envelope", error);
+    }
   }
 
   source.onmessage = receive;
 
-  for (const kind of ['recognition', 'decision', 'command', 'state']) {
+  for (const kind of ["recognition", "decision", "command", "state"]) {
     source.addEventListener(kind, receive);
   }
 
-  source.onopen = () => emit('connection', 'connected');
-  source.onerror = () => emit('connection', 'reconnecting');
+  source.onopen = () => emit("connection", "connected");
+  source.onerror = () => emit("connection", "reconnecting");
 
   return {
     on(kind, handler) {
@@ -35,6 +44,9 @@ export function createBus(url = 'http://127.0.0.1:4190/stream', Source = EventSo
 
       return () => listeners.get(kind)?.delete(handler);
     },
-    close() { source.close(); listeners.clear(); },
+    close() {
+      source.close();
+      listeners.clear();
+    },
   };
 }

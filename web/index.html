@@ -1,38 +1,89 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>A job for the robot</title>
-  <link rel="stylesheet" href="./style.css">
-  <script type="module" src="./app.js"></script>
-</head>
-<body>
-  <header><h1>A job for the robot</h1><button id="theme" aria-pressed="false">Dark mode</button></header>
-  <main>
-    <section class="beat" aria-label="Stage script">
-      <div><p id="beat-count">Step 1 of 6</p><h2 id="beat-name">Give the robot a job</h2><p id="beat-cue">A camera, a microphone and three moving devices.</p></div>
-      <nav aria-label="Script controls"><button id="previous" aria-label="Previous beat">←</button><button id="next" aria-label="Next beat">→</button></nav>
-    </section>
-    <section class="performance" aria-label="Live stage">
-      <div id="stage-map" role="group" aria-label="Stage map with two stations, a rover and two drones">
-        <div class="station station-one" data-station="1"><span>1</span>Station 1</div>
-        <div class="station station-two" data-station="2"><span>2</span>Station 2</div>
-        <p class="map-caption">Stage map</p>
-      </div>
-      <div class="decision" aria-live="polite" aria-atomic="true">
-        <p>Destination</p><h2 id="destination">Not selected</h2>
-        <p id="phase">Waiting</p><p id="reason">Waiting for the coordinator.</p>
-        <p id="connection" role="status">Connecting to device bus…</p>
-      </div>
-    </section>
-    <section class="device-strip" aria-label="Recognition devices">
-      <article><h2>Camera <span>camera-1</span></h2><p id="camera-reading">No recognition yet</p><div id="camera-1" data-device-mount="camera"><p id="camera-status">Checking camera module…</p></div><button id="start-camera" disabled>Start camera</button></article>
-      <article><h2>Microphone <span>mic-1</span></h2><p id="mic-reading">No recognition yet</p><div id="mic-1" data-device-mount="mic"><p id="mic-status">Checking microphone module…</p></div><button id="start-mic" disabled>Start microphone</button></article>
-    </section>
-    <details id="manual-panel"><summary>Manual input for rehearsal</summary><p>Send a recognition through the device pipeline. Keys: 1, 2, C, G, S. Arrow keys change the script beat.</p><div class="manual-controls"><button data-input="1">Card 1 <kbd>1</kbd></button><button data-input="2">Card 2 <kbd>2</kbd></button><button data-input="covered">Covered card <kbd>C</kbd></button><button data-input="go">Go <kbd>G</kbd></button><button data-input="stop">Stop <kbd>S</kbd></button></div><p id="manual-status" role="status">Manual input is ready.</p></details>
-    <section id="reveal-section" aria-labelledby="reveal-heading"><h2 id="reveal-heading">What the devices exchange</h2><div id="reveal"><p>Event reveal module is not installed yet.</p></div></section>
-  </main>
-  <footer>Expanso connects the devices. Each device does one narrow job.</footer>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>A job for the robot</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>A job for the robot</h1>
+      <button id="theme" aria-pressed="false">Dark mode</button>
+    </header>
+    <main>
+      <section class="beat" aria-label="Stage script">
+        <div>
+          <p id="beat-count">Step 1 of 6</p>
+          <h2 id="beat-name">Give the robot a job</h2>
+          <p id="beat-cue">A camera, a microphone and three moving devices.</p>
+        </div>
+        <nav aria-label="Script controls">
+          <button id="previous" aria-label="Previous beat">←</button
+          ><button id="next" aria-label="Next beat">→</button>
+        </nav>
+      </section>
+      <section class="performance" aria-label="Live stage">
+        <div
+          id="stage-map"
+          role="group"
+          aria-label="Stage map with two stations, a rover and two drones"
+        >
+          <div class="station station-one" data-station="1">
+            <span>1</span>Station 1
+          </div>
+          <div class="station station-two" data-station="2">
+            <span>2</span>Station 2
+          </div>
+          <p class="map-caption">Stage map</p>
+        </div>
+        <div class="decision" aria-live="polite" aria-atomic="true">
+          <p>Destination</p>
+          <h2 id="destination">Not selected</h2>
+          <p id="phase">Waiting</p>
+          <p id="reason">Waiting for the coordinator.</p>
+          <p id="connection" role="status">Connecting to device bus…</p>
+        </div>
+      </section>
+      <section class="device-strip" aria-label="Recognition devices">
+        <article>
+          <h2>Camera <span>camera-1</span></h2>
+          <p id="camera-reading">No recognition yet</p>
+          <p id="camera-status">Checking camera module…</p>
+          <div id="camera-1" data-device-mount="camera"></div>
+          <button id="start-camera" disabled>Start camera</button>
+        </article>
+        <article>
+          <h2>Microphone <span>mic-1</span></h2>
+          <p id="mic-reading">No recognition yet</p>
+          <p id="mic-status">Checking microphone module…</p>
+          <div id="mic-1" data-device-mount="mic"></div>
+          <button id="start-mic" disabled>Start microphone</button>
+        </article>
+      </section>
+      <details id="manual-panel">
+        <summary>Manual input for rehearsal</summary>
+        <p>
+          Send a recognition through the device pipeline. Keys: 1, 2, C, G, S.
+          Arrow keys change the script beat.
+        </p>
+        <div class="manual-controls">
+          <button data-input="1">Card 1 <kbd>1</kbd></button
+          ><button data-input="2">Card 2 <kbd>2</kbd></button
+          ><button data-input="covered">Covered card <kbd>C</kbd></button
+          ><button data-input="go">Go <kbd>G</kbd></button
+          ><button data-input="stop">Stop <kbd>S</kbd></button>
+        </div>
+        <p id="manual-status" role="status">Manual input is ready.</p>
+      </details>
+      <section id="reveal-section" aria-labelledby="reveal-heading">
+        <h2 id="reveal-heading">What the devices exchange</h2>
+        <div id="reveal"><p>Event reveal module is not installed yet.</p></div>
+      </section>
+    </main>
+    <footer>
+      Expanso connects the devices. Each device does one narrow job.
+    </footer>
+  </body>
 </html>
