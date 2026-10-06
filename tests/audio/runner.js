@@ -20,7 +20,14 @@ async function runFixtures() {
   const context = new AudioContext({ sampleRate: 44100 });
   await context.resume();
   const destination = context.createMediaStreamDestination();
-  navigator.mediaDevices.getUserMedia = async () => destination.stream.clone();
+  const issuedStreams = [];
+  navigator.mediaDevices.getUserMedia = async () => {
+    const stream = destination.stream.clone();
+    issuedStreams.push(stream);
+
+    return stream;
+  };
+
   const results = [];
 
   try {
@@ -41,7 +48,16 @@ async function runFixtures() {
     await context.close();
   }
 
-  const report = { pass: results.every(result => result.pass), results };
+  const streamsReleased = issuedStreams.every(stream => stream.getTracks().every(track => track.readyState === 'ended'));
+  const localResourcesOnly = performance.getEntriesByType('resource').every(entry => new URL(entry.name).origin === location.origin);
+
+  const report = {
+    pass: results.every(result => result.pass) && streamsReleased && localResourcesOnly,
+    testedAt: new Date().toISOString(),
+    browser: navigator.userAgent,
+    streamsReleased, localResourcesOnly, results,
+  };
+
   globalThis.audioReport = report;
   output.textContent = JSON.stringify(report, null, 2);
 

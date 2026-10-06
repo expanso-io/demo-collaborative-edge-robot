@@ -7,15 +7,7 @@ interface KeywordRecognizer {
   ensureModelLoaded(): Promise<void>;
   recognize(input: Float32Array): Promise<KeywordResult>;
   wordLabels(): string[];
-  listen(callback: (result: KeywordResult) => void, config: {
-    probabilityThreshold: number;
-    invokeCallbackOnNoiseAndUnknown: boolean;
-    overlapFactor: number;
-    suppressionTimeMillis: number;
-    includeSpectrogram: boolean;
-    audioTrackConstraints: MediaTrackConstraints;
-  }): Promise<void>;
-  stopListening(): Promise<void>;
+
 }
 
 declare var tf: object;

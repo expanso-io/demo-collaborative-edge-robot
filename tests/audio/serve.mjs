@@ -21,4 +21,6 @@ const server = createServer(async (request, response) => {
   } catch { response.writeHead(404).end('Not found'); }
 });
 
-server.listen(4189, '127.0.0.1', () => console.log('http://127.0.0.1:4189/tests/audio/index.html'));
+server.listen(Number(process.env.MIC_TEST_PORT ?? 4189), '127.0.0.1', () => {
+  console.log(`http://127.0.0.1:${server.address().port}/tests/audio/index.html`);
+});

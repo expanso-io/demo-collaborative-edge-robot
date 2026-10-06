@@ -4,9 +4,12 @@ export const WINDOW_SECONDS = (43 * 1024) / 44100;
 
 export const RAW_BYTES = Math.round(16000 * 2 * WINDOW_SECONDS);
 
-/** Suppress overlapping windows until 650 ms without that keyword. */
+/** Require three agreeing windows; stable non-command words suppress their tails. */
 export function createKeywordGate() {
-  let held = null;
+  let held = false;
+  let candidate = null;
+  let candidateSince = 0;
+  let candidateCount = 0;
   let lastCandidateAt = -Infinity;
 
   return (labels, scores, now) => {
@@ -14,21 +17,36 @@ export function createKeywordGate() {
     const value = labels[index];
     const confidence = scores[index];
 
-    const accepted = (value === 'go' || value === 'stop') &&
+    const accepted = value !== '_background_noise_' && value !== '_unknown_' &&
       Number.isFinite(confidence) && confidence >= CONFIDENCE_THRESHOLD && confidence <= 1;
 
     if (!accepted) {
-      if (now - lastCandidateAt >= 650) held = null;
+      candidate = null;
+      candidateCount = 0;
+
+      if (now - lastCandidateAt >= 650) held = false;
 
       return null;
     }
 
     lastCandidateAt = now;
 
-    if (held === value) return null;
-    held = value;
+    if (held) return null;
 
-    return { value, confidence };
+    if (candidate !== value) {
+      candidate = value;
+      candidateSince = now;
+      candidateCount = 1;
+
+      return null;
+    }
+
+    candidateCount++;
+
+    if (candidateCount < 3 || now - candidateSince < 180) return null;
+    held = true;
+
+    return value === 'go' || value === 'stop' ? { value, confidence } : null;
   };
 }
 
