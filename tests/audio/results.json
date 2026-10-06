@@ -8,7 +8,7 @@
       "fixture": "samantha-go.wav",
       "heard": [
         {
-          "confidence": 0.9997970461845398,
+          "confidence": 0.9999983310699464,
           "raw_bytes": 31951,
           "value": "go"
         }
@@ -20,7 +20,7 @@
       "fixture": "samantha-stop.wav",
       "heard": [
         {
-          "confidence": 0.9818461537361144,
+          "confidence": 0.9890819787979126,
           "raw_bytes": 31951,
           "value": "stop"
         }
@@ -50,7 +50,7 @@
       "fixture": "daniel-go.wav",
       "heard": [
         {
-          "confidence": 0.9999974966049194,
+          "confidence": 0.9999997615814208,
           "raw_bytes": 31951,
           "value": "go"
         }
@@ -62,7 +62,7 @@
       "fixture": "daniel-stop.wav",
       "heard": [
         {
-          "confidence": 0.9999997615814208,
+          "confidence": 1,
           "raw_bytes": 31951,
           "value": "stop"
         }
@@ -101,5 +101,5 @@
     }
   ],
   "streamsReleased": true,
-  "testedAt": "2026-10-06T16:13:57.286Z"
+  "testedAt": "2026-10-06T16:25:57.575Z"
 }
