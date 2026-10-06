@@ -26,14 +26,19 @@ try {
   await browser('--args', '--autoplay-policy=no-user-gesture-required', 'open', url);
   await browser('click', '#fixtures');
 
-  const result = await browser('eval', `new Promise((resolve, reject) => {
-    const deadline = setTimeout(() => { clearInterval(timer); reject(new Error('WAV proof timed out')); }, 85000);
-    const timer = setInterval(() => {
-      if (globalThis.audioReport) { clearTimeout(deadline); clearInterval(timer); resolve(globalThis.audioReport); }
-    }, 250);
-  })`);
+  // Poll with short evaluate calls: one long awaited evaluate outlives the
+  // browser protocol's own per-call timeout on slower CI runners.
+  const deadline = Date.now() + 180000;
+  let report = null;
 
-  const report = JSON.parse(result);
+  while (!report) {
+    if (Date.now() > deadline) throw new Error('WAV proof timed out');
+
+    report = JSON.parse(await browser('eval', 'globalThis.audioReport ?? null'));
+
+    if (!report) await new Promise(resolve => setTimeout(resolve, 1000));
+  }
+
   await writeFile(new URL('./results.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
   console.log(`${report.results?.filter(item => item.pass).length ?? 0}/${report.results?.length ?? 0} WAV fixtures passed`);
 
