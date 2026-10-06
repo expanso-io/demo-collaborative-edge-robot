@@ -1,10 +1,13 @@
 /** DeviceAdapter implementation. Station selection and permission stay in pipelines. */
 export class MapAdapter {
-  constructor(id, { x = 0.5, y = 0.82, speed = 0.12, lane = 0 } = {}) {
+  // lane: sideways offset at a station so devices park side by side.
+  // altitude: map height they park at; drones hover above the rover row.
+  constructor(id, { x = 0.5, y = 0.82, speed = 0.12, lane = 0, altitude = 0.4 } = {}) {
     this.id = id;
     this.position = { x, y };
     this.speed = speed;
     this.lane = lane;
+    this.altitude = altitude;
     this.station = null;
     this.phase = "idle";
     this.listeners = new Set();
@@ -47,7 +50,12 @@ export class MapAdapter {
   tick(seconds) {
     if (this.phase !== "moving" || !Number.isFinite(seconds) || seconds <= 0)
       return;
-    const target = { x: this.station === 1 ? 0.22 : 0.78, y: 0.4 + this.lane };
+
+    const target = {
+      x: (this.station === 1 ? 0.22 : 0.78) + this.lane,
+      y: this.altitude,
+    };
+
     const dx = target.x - this.position.x;
     const dy = target.y - this.position.y;
     const distance = Math.hypot(dx, dy);

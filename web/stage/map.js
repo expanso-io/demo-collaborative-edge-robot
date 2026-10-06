@@ -2,9 +2,9 @@ import { MapAdapter, connectAdapter } from "../adapters/map.js";
 
 export function mountStage(element, bus, postEvent, reportError) {
   const specs = [
-    { id: "rover-1", label: "Rover", x: 0.5, y: 0.82, lane: 0.15 },
-    { id: "drone-1", label: "Drone 1", x: 0.38, y: 0.69, lane: -0.09 },
-    { id: "drone-2", label: "Drone 2", x: 0.62, y: 0.69, lane: 0.03 },
+    { id: "rover-1", label: "Rover", x: 0.5, y: 0.82, lane: 0, altitude: 0.74 },
+    { id: "drone-1", label: "Drone 1", x: 0.38, y: 0.69, lane: -0.12, altitude: 0.54 },
+    { id: "drone-2", label: "Drone 2", x: 0.62, y: 0.69, lane: 0.12, altitude: 0.54 },
   ];
 
   const disposers = [];
