@@ -1,0 +1,5 @@
+# Explicit configuration prevents accidental use of a global Edge config.
+local_mode: true
+log:
+  level: info
+  format: text

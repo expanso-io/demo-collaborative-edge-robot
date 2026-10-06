@@ -1,0 +1,63 @@
+{
+  "name": "mic-1",
+  "type": "pipeline",
+  "config": {
+    "input": {
+      "http_server": {
+        "address": "127.0.0.1:4102",
+        "path": "/events",
+        "ws_path": "",
+        "timeout": "5s",
+        "cors": {
+          "enabled": true,
+          "allowed_origins": [
+            "http://127.0.0.1:4180"
+          ]
+        }
+      }
+    },
+    "pipeline": {
+      "threads": 1,
+      "processors": [
+        {
+          "mapping": "root = this.json_schema(\"{\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"v\\\", \\\"id\\\", \\\"ts\\\", \\\"raw_bytes\\\", \\\"from\\\", \\\"kind\\\", \\\"body\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"v\\\": {\\\"enum\\\": [1]}, \\\"id\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$\\\"}, \\\"ts\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"Z$\\\", \\\"format\\\": \\\"date-time\\\"}, \\\"raw_bytes\\\": {\\\"type\\\": \\\"integer\\\", \\\"minimum\\\": 0}, \\\"from\\\": {\\\"enum\\\": [\\\"mic-1\\\"]}, \\\"kind\\\": {\\\"enum\\\": [\\\"recognition\\\"]}, \\\"body\\\": {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"task\\\", \\\"value\\\", \\\"confidence\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"task\\\": {\\\"enum\\\": [\\\"keyword\\\"]}, \\\"value\\\": {\\\"enum\\\": [\\\"go\\\", \\\"stop\\\", null]}, \\\"confidence\\\": {\\\"type\\\": \\\"number\\\", \\\"minimum\\\": 0, \\\"maximum\\\": 1}}}}}\")\nroot = if content().length() >= 1024 { throw(\"envelope must be below 1 KB\") } else { this }"
+        },
+        {
+          "mapping": "root = if errored() { deleted() } else { this }"
+        },
+        {
+          "branch": {
+            "processors": [
+              {
+                "http": {
+                  "url": "http://127.0.0.1:4190/events",
+                  "verb": "POST",
+                  "headers": {
+                    "Content-Type": "application/json"
+                  },
+                  "timeout": "3s",
+                  "retries": 0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "mapping": "root = if errored() { deleted() } else { this }"
+        }
+      ]
+    },
+    "output": {
+      "http_client": {
+        "url": "http://127.0.0.1:4100/events",
+        "verb": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "max_in_flight": 1,
+        "timeout": "3s",
+        "retries": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "drone-2",
+  "type": "pipeline",
+  "config": {
+    "input": {
+      "http_server": {
+        "address": "127.0.0.1:4122",
+        "path": "/events",
+        "ws_path": "",
+        "timeout": "5s",
+        "cors": {
+          "enabled": true,
+          "allowed_origins": [
+            "http://127.0.0.1:4180"
+          ]
+        }
+      }
+    },
+    "pipeline": {
+      "threads": 1,
+      "processors": [
+        {
+          "mapping": "root = this.json_schema(\"{\\\"oneOf\\\": [{\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"v\\\", \\\"id\\\", \\\"ts\\\", \\\"raw_bytes\\\", \\\"from\\\", \\\"kind\\\", \\\"body\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"v\\\": {\\\"enum\\\": [1]}, \\\"id\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$\\\"}, \\\"ts\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"Z$\\\", \\\"format\\\": \\\"date-time\\\"}, \\\"raw_bytes\\\": {\\\"type\\\": \\\"integer\\\", \\\"minimum\\\": 0}, \\\"from\\\": {\\\"enum\\\": [\\\"coordinator\\\"]}, \\\"kind\\\": {\\\"enum\\\": [\\\"command\\\"]}, \\\"body\\\": {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"target\\\", \\\"action\\\", \\\"station\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"target\\\": {\\\"enum\\\": [\\\"drone-2\\\"]}, \\\"action\\\": {\\\"enum\\\": [\\\"move_to\\\", \\\"pause\\\", \\\"resume\\\", \\\"hold\\\"]}, \\\"station\\\": {\\\"enum\\\": [1, 2, null]}}}}}, {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"v\\\", \\\"id\\\", \\\"ts\\\", \\\"raw_bytes\\\", \\\"from\\\", \\\"kind\\\", \\\"body\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"v\\\": {\\\"enum\\\": [1]}, \\\"id\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$\\\"}, \\\"ts\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"Z$\\\", \\\"format\\\": \\\"date-time\\\"}, \\\"raw_bytes\\\": {\\\"type\\\": \\\"integer\\\", \\\"minimum\\\": 0}, \\\"from\\\": {\\\"enum\\\": [\\\"drone-2\\\"]}, \\\"kind\\\": {\\\"enum\\\": [\\\"state\\\"]}, \\\"body\\\": {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"phase\\\", \\\"station\\\", \\\"x\\\", \\\"y\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"phase\\\": {\\\"enum\\\": [\\\"idle\\\", \\\"moving\\\", \\\"paused\\\", \\\"arrived\\\"]}, \\\"station\\\": {\\\"enum\\\": [1, 2, null]}, \\\"x\\\": {\\\"type\\\": \\\"number\\\", \\\"minimum\\\": 0, \\\"maximum\\\": 1}, \\\"y\\\": {\\\"type\\\": \\\"number\\\", \\\"minimum\\\": 0, \\\"maximum\\\": 1}}}}}]}\")\nroot = if content().length() >= 1024 { throw(\"envelope must be below 1 KB\") } else { this }"
+        },
+        {
+          "mapping": "root = if errored() { deleted() } else { this }"
+        }
+      ]
+    },
+    "output": {
+      "http_client": {
+        "url": "http://127.0.0.1:4190/events",
+        "verb": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "max_in_flight": 1,
+        "timeout": "3s",
+        "retries": 0
+      }
+    }
+  }
+}
