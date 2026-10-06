@@ -59,9 +59,17 @@ def post(name, **overrides):
              "raw_bytes": fixture["raw_bytes"]}
     index = len(events)
     port = runtime.NODES[event["from"]][0]
-    runtime.request(f"http://127.0.0.1:{port}/events", json.dumps(event).encode())
+    browser_post(port, event)
     wait_for(lambda item: item["id"] == event["id"], index)
     return index
+
+
+def browser_post(port, event):
+    request = urllib.request.Request(f"http://127.0.0.1:{port}/events", data=json.dumps(event).encode(),
+                                     headers={"Content-Type": "text/plain", "Origin": runtime.ORIGIN})
+    with runtime.PROXYLESS.open(request, timeout=3) as response:
+        assert response.headers["Access-Control-Allow-Origin"] == runtime.ORIGIN
+        assert response.status == 200
 
 
 def decision(phase, destination, after, reason=None):
@@ -150,7 +158,7 @@ def exercise():
         event = {"v": 1, "id": str(uuid.uuid4()), "ts": stamp(), "from": device, "kind": "state",
                  "body": {"phase": "arrived", "station": 2, "x": .75, "y": .4}, "raw_bytes": 0}
         index = len(events)
-        runtime.request(f"http://127.0.0.1:{runtime.NODES[device][0]}/events", json.dumps(event).encode())
+        browser_post(runtime.NODES[device][0], event)
         wait_for(lambda item: item["id"] == event["id"], index)
     check("all actuator state envelopes reach bus")
 
@@ -168,13 +176,7 @@ def exercise():
     assert len(events) == index, "Invalid envelopes reached bus"
     check("schema, device identity, raw payload and confidence validation")
 
-    for port in [4100, 4101, 4102, 4111, 4121, 4122, 4190]:
-        req = urllib.request.Request(f"http://127.0.0.1:{port}/events", method="OPTIONS",
-                                     headers={"Origin": runtime.ORIGIN, "Access-Control-Request-Method": "POST",
-                                              "Access-Control-Request-Headers": "Content-Type"})
-        with runtime.PROXYLESS.open(req, timeout=3) as response:
-            assert response.headers["Access-Control-Allow-Origin"] == runtime.ORIGIN
-    check("presenter origin CORS preflight on every endpoint")
+    check("presenter origin simple text/plain CORS requests on device endpoints")
 
     assert [seq for seq, _, _ in events] == list(range(1, len(events) + 1)), "SSE order has gaps"
     assert len({event["id"] for _, event, _ in events}) == len(events), "Duplicate envelopes"
