@@ -1,0 +1,10 @@
+{
+  "name": "collaborative-edge-mic",
+  "private": true,
+  "type": "module",
+  "scripts": { "setup": "node setup.mjs" },
+  "dependencies": {
+    "@tensorflow/tfjs": "4.22.0",
+    "@tensorflow-models/speech-commands": "0.5.4"
+  }
+}
