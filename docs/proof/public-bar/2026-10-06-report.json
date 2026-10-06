@@ -1,0 +1,699 @@
+{
+  "schema_version": 1,
+  "public_bar_version": "1.1.3",
+  "generated_at": "2026-10-06T16:42:25Z",
+  "repository": "/Users/daaronch/.treehouse/demo-collaborative-edge-robot-2ed161/1/demo-collaborative-edge-robot",
+  "commit": "82433bd1a67faf57b85baa9b3fda235a2fe6ffad",
+  "lane": "all",
+  "tools": {
+    "expanso-edge": "v2.1.21",
+    "expanso-cli": "Expanso CLI version v2.1.21",
+    "playwright": "1.55.0",
+    "python": "3.14.7"
+  },
+  "criteria": {
+    "1": {
+      "name": "Runs",
+      "status": "PASS"
+    },
+    "2": {
+      "name": "Platform",
+      "status": "PASS"
+    },
+    "3": {
+      "name": "Structure",
+      "status": "PASS"
+    },
+    "4": {
+      "name": "Usability",
+      "status": "PASS"
+    },
+    "5": {
+      "name": "Regressions",
+      "status": "PASS"
+    }
+  },
+  "assertions": [
+    {
+      "criterion": 1,
+      "name": "manifest-schema",
+      "passed": true,
+      "detail": "public-bar.toml matches schema version 1",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "yaml-inventory",
+      "passed": true,
+      "detail": "classified 7 YAML files",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "service:event-bus",
+      "passed": true,
+      "detail": "declared fixture service is ready",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "camera-1:edge-validate",
+      "passed": true,
+      "detail": "expanso-edge validate passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "camera-1:job-validate",
+      "passed": true,
+      "detail": "expanso-cli offline job validation passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "camera-1:fixture",
+      "passed": true,
+      "detail": "local Edge replay matched 1 JSON records",
+      "evidence": {
+        "input_sha256": "ff664a9636873774d0b24216effdb891b03d623b5a72d11ff70956e9068fd651",
+        "actual_sha256": "2b397530ec8418defca753b9026e8e1879afbb8017a29143922dbaee1a927e94",
+        "expected_sha256": "ff664a9636873774d0b24216effdb891b03d623b5a72d11ff70956e9068fd651"
+      }
+    },
+    {
+      "criterion": 1,
+      "name": "mic-1:edge-validate",
+      "passed": true,
+      "detail": "expanso-edge validate passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "mic-1:job-validate",
+      "passed": true,
+      "detail": "expanso-cli offline job validation passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "mic-1:fixture",
+      "passed": true,
+      "detail": "local Edge replay matched 1 JSON records",
+      "evidence": {
+        "input_sha256": "1b778c0a4bd31fd99757faac21d5b9e7fb8b421cdaea860ee577675cb053cb9b",
+        "actual_sha256": "db561d22e5b2ca9cf4c7337cd140a61fde1858805149db4e7688feda0e98f50b",
+        "expected_sha256": "1b778c0a4bd31fd99757faac21d5b9e7fb8b421cdaea860ee577675cb053cb9b"
+      }
+    },
+    {
+      "criterion": 1,
+      "name": "coordinator:edge-validate",
+      "passed": true,
+      "detail": "expanso-edge validate passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "coordinator:job-validate",
+      "passed": true,
+      "detail": "expanso-cli offline job validation passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "coordinator:fixture",
+      "passed": true,
+      "detail": "local Edge replay matched 4 JSON records",
+      "evidence": {
+        "input_sha256": "ff664a9636873774d0b24216effdb891b03d623b5a72d11ff70956e9068fd651",
+        "actual_sha256": "285fa577d42ed71e0d791065325717ddb0e3b3ba4b9f0c35ec6e064b8d5159b2",
+        "expected_schema_sha256": "89168e5f384e3a43b30e4300b0e2521df537847a0f75e334c58b4a25c23a051f"
+      }
+    },
+    {
+      "criterion": 1,
+      "name": "rover-1:edge-validate",
+      "passed": true,
+      "detail": "expanso-edge validate passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "rover-1:job-validate",
+      "passed": true,
+      "detail": "expanso-cli offline job validation passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "rover-1:fixture",
+      "passed": true,
+      "detail": "local Edge replay matched 1 JSON records",
+      "evidence": {
+        "input_sha256": "405e994d9922199a166c3ce6f400bbf0bc273572fc798ee2594ffc493d1afe80",
+        "actual_sha256": "b563a3d6dc0b326f273496ec0935923dc0fd99d2c8654d31fca68c8bf7a5786f",
+        "expected_sha256": "405e994d9922199a166c3ce6f400bbf0bc273572fc798ee2594ffc493d1afe80"
+      }
+    },
+    {
+      "criterion": 1,
+      "name": "drone-1:edge-validate",
+      "passed": true,
+      "detail": "expanso-edge validate passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "drone-1:job-validate",
+      "passed": true,
+      "detail": "expanso-cli offline job validation passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "drone-1:fixture",
+      "passed": true,
+      "detail": "local Edge replay matched 1 JSON records",
+      "evidence": {
+        "input_sha256": "9d5d57cf8b37a7319f2c713691fa9862a55afac92b0244ce199a4a7bfde295af",
+        "actual_sha256": "adddbb810c6ed4b7c13690416cbce1899c73b5ee543f0feff53b5c1cdd98bcb2",
+        "expected_sha256": "9d5d57cf8b37a7319f2c713691fa9862a55afac92b0244ce199a4a7bfde295af"
+      }
+    },
+    {
+      "criterion": 1,
+      "name": "drone-2:edge-validate",
+      "passed": true,
+      "detail": "expanso-edge validate passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "drone-2:job-validate",
+      "passed": true,
+      "detail": "expanso-cli offline job validation passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 1,
+      "name": "drone-2:fixture",
+      "passed": true,
+      "detail": "local Edge replay matched 1 JSON records",
+      "evidence": {
+        "input_sha256": "9e4f762ca90b5badd0663e64b815f31c10982acd283912f1eb85574f16fa83b1",
+        "actual_sha256": "b44327ef759417732b5e5bf90e66d8ee1d43dbd21df758ff2f7f45dd0fc092ff",
+        "expected_sha256": "9e4f762ca90b5badd0663e64b815f31c10982acd283912f1eb85574f16fa83b1"
+      }
+    },
+    {
+      "criterion": 1,
+      "name": "teardown",
+      "passed": true,
+      "detail": "all declared services and browser hosts stopped",
+      "evidence": {}
+    },
+    {
+      "criterion": 2,
+      "name": "platform-inventory",
+      "passed": true,
+      "detail": "declared 3 named platforms",
+      "evidence": {}
+    },
+    {
+      "criterion": 2,
+      "name": "expanso-edge",
+      "passed": true,
+      "detail": "other files and integration declaration passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 2,
+      "name": "expanso-cloud",
+      "passed": true,
+      "detail": "managed-cloud files and integration declaration passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 2,
+      "name": "future-hardware",
+      "passed": true,
+      "detail": "other files and integration declaration passed",
+      "evidence": {}
+    },
+    {
+      "criterion": 3,
+      "name": "explanation",
+      "passed": true,
+      "detail": "#explanation matched 1 element(s)",
+      "evidence": {}
+    },
+    {
+      "criterion": 3,
+      "name": "explorer",
+      "passed": true,
+      "detail": "#explorer matched 1 element(s)",
+      "evidence": {}
+    },
+    {
+      "criterion": 3,
+      "name": "run",
+      "passed": true,
+      "detail": "#run matched 1 element(s)",
+      "evidence": {}
+    },
+    {
+      "criterion": 3,
+      "name": "deploy",
+      "passed": true,
+      "detail": "#deploy matched 1 element(s)",
+      "evidence": {}
+    },
+    {
+      "criterion": 3,
+      "name": "stage:camera-1",
+      "passed": true,
+      "detail": "fixture-backed explorer stage exists",
+      "evidence": {}
+    },
+    {
+      "criterion": 3,
+      "name": "stage:mic-1",
+      "passed": true,
+      "detail": "fixture-backed explorer stage exists",
+      "evidence": {}
+    },
+    {
+      "criterion": 3,
+      "name": "stage:coordinator",
+      "passed": true,
+      "detail": "fixture-backed explorer stage exists",
+      "evidence": {}
+    },
+    {
+      "criterion": 3,
+      "name": "stage:rover-1",
+      "passed": true,
+      "detail": "fixture-backed explorer stage exists",
+      "evidence": {}
+    },
+    {
+      "criterion": 3,
+      "name": "stage:drone-1",
+      "passed": true,
+      "detail": "fixture-backed explorer stage exists",
+      "evidence": {}
+    },
+    {
+      "criterion": 3,
+      "name": "stage:drone-2",
+      "passed": true,
+      "detail": "fixture-backed explorer stage exists",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "browser-contract",
+      "passed": true,
+      "detail": "rendered-browser declarations are complete",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "source-policy",
+      "passed": true,
+      "detail": "source avoids banned public-demo decoration",
+      "evidence": {}
+    },
+    {
+      "criterion": 5,
+      "name": "feature-manifest",
+      "passed": true,
+      "detail": "public-features.json matches schema version 1",
+      "evidence": {}
+    },
+    {
+      "criterion": 5,
+      "name": "baseline",
+      "passed": true,
+      "detail": "initial adoption: no prior retained-feature baseline exists",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "service:event-bus",
+      "passed": true,
+      "detail": "declared fixture service is ready",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "theme-default:320",
+      "passed": true,
+      "detail": "default theme reports light",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "overflow:320:light",
+      "passed": true,
+      "detail": "scrollWidth 320 <= clientWidth 320",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "contrast:320:light",
+      "passed": true,
+      "detail": "all visible text meets WCAG AA",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "axe:320:light",
+      "passed": true,
+      "detail": "axe found no WCAG A/AA violations",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "theme-dark:320",
+      "passed": true,
+      "detail": "toggle reports dark",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "overflow:320:dark",
+      "passed": true,
+      "detail": "scrollWidth 320 <= clientWidth 320",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "contrast:320:dark",
+      "passed": true,
+      "detail": "all visible text meets WCAG AA",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "axe:320:dark",
+      "passed": true,
+      "detail": "axe found no WCAG A/AA violations",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "theme-default:400",
+      "passed": true,
+      "detail": "default theme reports light",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "overflow:400:light",
+      "passed": true,
+      "detail": "scrollWidth 400 <= clientWidth 400",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "contrast:400:light",
+      "passed": true,
+      "detail": "all visible text meets WCAG AA",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "axe:400:light",
+      "passed": true,
+      "detail": "axe found no WCAG A/AA violations",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "theme-dark:400",
+      "passed": true,
+      "detail": "toggle reports dark",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "overflow:400:dark",
+      "passed": true,
+      "detail": "scrollWidth 400 <= clientWidth 400",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "contrast:400:dark",
+      "passed": true,
+      "detail": "all visible text meets WCAG AA",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "axe:400:dark",
+      "passed": true,
+      "detail": "axe found no WCAG A/AA violations",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "theme-default:768",
+      "passed": true,
+      "detail": "default theme reports light",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "overflow:768:light",
+      "passed": true,
+      "detail": "scrollWidth 768 <= clientWidth 768",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "contrast:768:light",
+      "passed": true,
+      "detail": "all visible text meets WCAG AA",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "axe:768:light",
+      "passed": true,
+      "detail": "axe found no WCAG A/AA violations",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "theme-dark:768",
+      "passed": true,
+      "detail": "toggle reports dark",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "overflow:768:dark",
+      "passed": true,
+      "detail": "scrollWidth 768 <= clientWidth 768",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "contrast:768:dark",
+      "passed": true,
+      "detail": "all visible text meets WCAG AA",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "axe:768:dark",
+      "passed": true,
+      "detail": "axe found no WCAG A/AA violations",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "theme-default:1440",
+      "passed": true,
+      "detail": "default theme reports light",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "overflow:1440:light",
+      "passed": true,
+      "detail": "scrollWidth 1440 <= clientWidth 1440",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "contrast:1440:light",
+      "passed": true,
+      "detail": "all visible text meets WCAG AA",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "axe:1440:light",
+      "passed": true,
+      "detail": "axe found no WCAG A/AA violations",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "theme-dark:1440",
+      "passed": true,
+      "detail": "toggle reports dark",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "overflow:1440:dark",
+      "passed": true,
+      "detail": "scrollWidth 1440 <= clientWidth 1440",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "contrast:1440:dark",
+      "passed": true,
+      "detail": "all visible text meets WCAG AA",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "axe:1440:dark",
+      "passed": true,
+      "detail": "axe found no WCAG A/AA violations",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "stage-keys",
+      "passed": true,
+      "detail": "Right and Left paged 6 stages; scroll stayed within 2px",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "json:pre[data-public-json]:0",
+      "passed": true,
+      "detail": "JSON is valid and vertically pretty-printed",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "json:pre[data-public-json]:1",
+      "passed": true,
+      "detail": "JSON is valid and vertically pretty-printed",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "json:pre[data-public-json]:2",
+      "passed": true,
+      "detail": "JSON is valid and vertically pretty-printed",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "json:pre[data-public-json]:3",
+      "passed": true,
+      "detail": "JSON is valid and vertically pretty-printed",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "json:pre[data-public-json]:4",
+      "passed": true,
+      "detail": "JSON is valid and vertically pretty-printed",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "json:pre[data-public-json]:5",
+      "passed": true,
+      "detail": "JSON is valid and vertically pretty-printed",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "json:pre[data-public-json]:6",
+      "passed": true,
+      "detail": "JSON is valid and vertically pretty-printed",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "json:pre[data-public-json]:7",
+      "passed": true,
+      "detail": "JSON is valid and vertically pretty-printed",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "json:pre[data-public-json]:8",
+      "passed": true,
+      "detail": "JSON is valid and vertically pretty-printed",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "json:pre[data-public-json]:9",
+      "passed": true,
+      "detail": "JSON is valid and vertically pretty-printed",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "json:pre[data-public-json]:10",
+      "passed": true,
+      "detail": "JSON is valid and vertically pretty-printed",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "json:pre[data-public-json]:11",
+      "passed": true,
+      "detail": "JSON is valid and vertically pretty-printed",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "control:copy-check",
+      "passed": true,
+      "detail": "copy invoked=True, local success=True, forced failure=True",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "control:copy-present",
+      "passed": true,
+      "detail": "copy invoked=True, local success=True, forced failure=True",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "control:copy-stop",
+      "passed": true,
+      "detail": "copy invoked=True, local success=True, forced failure=True",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "control:copy-deploy",
+      "passed": true,
+      "detail": "copy invoked=True, local success=True, forced failure=True",
+      "evidence": {}
+    },
+    {
+      "criterion": 4,
+      "name": "teardown",
+      "passed": true,
+      "detail": "all declared services and browser hosts stopped",
+      "evidence": {}
+    }
+  ]
+}

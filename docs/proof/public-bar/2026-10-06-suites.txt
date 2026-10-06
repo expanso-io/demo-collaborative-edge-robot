@@ -1,0 +1,119 @@
+uv run --offline --no-project tests/pipelines/run.py
+PASS go without destination waits
+PASS confidence boundary 0.80 selects station 1
+PASS go moves all three devices after window; repeated cards do not interrupt
+PASS stop pauses all devices, retains destination, beats following go
+PASS later go resumes toward retained destination
+PASS stop cancels preceding go inside 1.5 seconds
+PASS below threshold waits, holds devices, preserves station, blocks go
+PASS unreadable input waits; new confident card replaces destination
+PASS all actuator state envelopes reach bus; rover arrival closes the job
+PASS schema, device identity, raw payload and confidence validation
+PASS presenter origin simple text/plain CORS requests on device endpoints
+PASS ordered SSE: 67 unique UTC envelopes, each below 1 KB
+PASS Ctrl-C shutdown releases every declared port
+node --test tests/vision/vision.test.mjs
+(node:26856) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/daaronch/.treehouse/demo-collaborative-edge-robot-2ed161/1/demo-collaborative-edge-robot/web/devices/camera/recognizer.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/daaronch/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+card-1-clear.ppm: value=1 confidence=0.908
+card-1-distance.ppm: value=1 confidence=0.981
+card-1-angle.ppm: value=1 confidence=0.971
+card-1-angle-distance.ppm: value=1 confidence=0.854
+card-1-partly-covered.ppm: value=null confidence=0
+card-1-covered-digit.ppm: value=null confidence=0
+card-1-blurred.ppm: value=null confidence=0.314
+card-1-dim.ppm: value=1 confidence=0.908
+card-2-clear.ppm: value=2 confidence=0.967
+card-2-distance.ppm: value=2 confidence=0.929
+card-2-angle.ppm: value=2 confidence=0.971
+card-2-angle-distance.ppm: value=2 confidence=0.806
+card-2-partly-covered.ppm: value=null confidence=0
+card-2-covered-digit.ppm: value=null confidence=0
+card-2-blurred.ppm: value=null confidence=0
+card-2-dim.ppm: value=2 confidence=0.967
+blank.ppm: value=null confidence=0
+✔ card-1-clear.ppm (21.55925ms)
+✔ card-1-distance.ppm (13.716875ms)
+✔ card-1-angle.ppm (14.611667ms)
+✔ card-1-angle-distance.ppm (12.28825ms)
+✔ card-1-partly-covered.ppm (13.119167ms)
+✔ card-1-covered-digit.ppm (12.555959ms)
+✔ card-1-blurred.ppm (13.852875ms)
+✔ card-1-dim.ppm (13.63775ms)
+✔ card-2-clear.ppm (15.614625ms)
+✔ card-2-distance.ppm (14.506208ms)
+✔ card-2-angle.ppm (10.954291ms)
+✔ card-2-angle-distance.ppm (10.572708ms)
+✔ card-2-partly-covered.ppm (10.572541ms)
+✔ card-2-covered-digit.ppm (10.602042ms)
+✔ card-2-blurred.ppm (13.54075ms)
+✔ card-2-dim.ppm (10.712208ms)
+✔ blank.ppm (10.381417ms)
+✔ envelopes: transitions, throttle, heartbeat, raw accounting (2.823708ms)
+✔ malformed input fails explicitly (0.173583ms)
+✔ two readable cards must not select either destination (27.485125ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 322.490042
+node tests/audio/verify.mjs
+12/12 WAV fixtures passed
+node --test tests/stage/adapter.test.mjs
+(node:78684) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/daaronch/.treehouse/demo-collaborative-edge-robot-2ed161/1/demo-collaborative-edge-robot/web/adapters/map.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/daaronch/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ move reaches station; pause and hold preserve target and position; resume arrives (1.949625ms)
+✔ only addressed coordinator commands act; duplicates and invalid stations are ignored (3.577833ms)
+✔ hardware scaffolds pass instructions and telemetry through the supplied transport (0.115042ms)
+✔ one source fans ordinary and named SSE messages out, unsubscribes and closes (0.720333ms)
+✔ light and dark text palettes meet WCAG AA on both surfaces (0.349625ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 80.832291
+node --test tests/reveal/accounting.test.js
+(node:78917) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/daaronch/.treehouse/demo-collaborative-edge-robot-2ed161/1/demo-collaborative-edge-robot/tests/reveal/accounting.test.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/daaronch/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ fixture bus accounts for every envelope, raw inputs, and exact ratio (1.364708ms)
+✔ UTF-8 accounting includes multibyte text; presentation whitespace is excluded (0.12275ms)
+✔ routes describe input, targeted commands, state back, and local decisions (0.075584ms)
+✔ bus with no unsubscribe return stops accounting after destroy (0.059167ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 66.879208
+uv run --offline --no-project tests/public-contract.py
+PASS published JSON matches all 12 fixtures; coordinator uses original rule sources
+PASS retained controls exist on presenter and explorer routes
+
+FINAL COORDINATOR GUARD RERUN
+PASS go without destination waits
+PASS confidence boundary 0.80 selects station 1
+PASS go moves all three devices after window; repeated cards do not interrupt
+PASS stop pauses all devices, retains destination, beats following go
+PASS later go resumes toward retained destination
+PASS stop cancels preceding go inside 1.5 seconds
+PASS below threshold waits, holds devices, preserves station, blocks go
+PASS unreadable input waits; new confident card replaces destination
+PASS all actuator state envelopes reach bus; rover arrival closes the job
+PASS schema, device identity, raw payload and confidence validation
+PASS presenter origin simple text/plain CORS requests on device endpoints
+PASS ordered SSE: 67 unique UTC envelopes, each below 1 KB
+PASS Ctrl-C shutdown releases every declared port
