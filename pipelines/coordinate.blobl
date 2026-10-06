@@ -7,7 +7,7 @@ let card = $e.from.or("") == "camera-1"
 let mic = $e.from.or("") == "mic-1"
 let state = $e.kind.or("") == "state"
 let stop = $mic && $e.body.value.or("") == "stop"
-let valid = $e.body.confidence.or(0) >= env("CONFIDENCE_THRESHOLD").number()
+let valid = $e.body.confidence.or(0) >= env("CONFIDENCE_THRESHOLD").or("0.80").number()
 let changed_card = $card && $valid && $e.body.value != null && ($e.body.value != $s.destination || !$s.clear)
 let unclear = !$tick && ($card || $mic) && (!$valid || $e.body.value == null)
 let go = $mic && $valid && $e.body.value.or("") == "go"

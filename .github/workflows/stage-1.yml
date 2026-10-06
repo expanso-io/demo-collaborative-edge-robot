@@ -1,0 +1,85 @@
+name: Stage 1 regression checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  stage-1:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      EXPANSO_VERSION: v2.1.21
+      PUBLIC_BAR_UV: "0.12.17"
+      EDGE_INSTALLER_SHA256: >-
+        6dac113fdbaab206aa1c152f6c9a7b6ec4affedb4dce443a06e17516086061a9
+      CLI_INSTALLER_SHA256: >-
+        38c3b93063fbb4b2172bf0d87ea2ef0b7cc72b74c0658b6a8753d60566c9a485
+    steps:
+      - name: Check out the example
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e
+        with:
+          version: ${{ env.PUBLIC_BAR_UV }}
+          enable-cache: true
+
+      - name: Install pinned Expanso tools
+        env:
+          EXPANSO_DISABLEANALYTICS: "true"
+        run: |
+          mkdir -p "$RUNNER_TEMP/expanso-bin"
+          curl -fsSL \
+            https://get.expanso.io/edge/install.sh \
+            -o "$RUNNER_TEMP/install-edge.sh"
+          curl -fsSL \
+            https://get.expanso.io/cli/install.sh \
+            -o "$RUNNER_TEMP/install-cli.sh"
+          echo \
+            "$EDGE_INSTALLER_SHA256  $RUNNER_TEMP/install-edge.sh" \
+            | sha256sum -c -
+          echo \
+            "$CLI_INSTALLER_SHA256  $RUNNER_TEMP/install-cli.sh" \
+            | sha256sum -c -
+          bash "$RUNNER_TEMP/install-edge.sh" \
+            "$EXPANSO_VERSION" \
+            --dir "$RUNNER_TEMP/expanso-bin"
+          bash "$RUNNER_TEMP/install-cli.sh" \
+            "$EXPANSO_VERSION" \
+            --dir "$RUNNER_TEMP/expanso-bin"
+          echo "$RUNNER_TEMP/expanso-bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/expanso-bin/expanso-edge" version \
+            | grep -F "$EXPANSO_VERSION"
+          "$RUNNER_TEMP/expanso-bin/expanso-cli" version \
+            | grep -F "$EXPANSO_VERSION"
+
+      - name: Install browser and speech test dependencies
+        run: |
+          npm install --prefix .runtime/test-tools --no-save \
+            --ignore-scripts agent-browser@0.38.1 typescript@5.9.3
+          echo "$PWD/.runtime/test-tools/node_modules/.bin" >> "$GITHUB_PATH"
+          .runtime/test-tools/node_modules/.bin/agent-browser \
+            install --with-deps
+          npm ci --prefix web/devices/mic
+
+      - name: Run the five existing suites and explorer contract
+        run: |
+          uv run --offline --no-project tests/pipelines/run.py
+          node --test tests/vision/vision.test.mjs
+          node tests/audio/verify.mjs
+          node --test tests/stage/adapter.test.mjs
+          node --test tests/reveal/accounting.test.js
+          uv run --offline --no-project tests/public-contract.py
+          tsc --project tsconfig.json
+
+      - name: Verify shutdown
+        if: always()
+        run: uv run --offline --no-project scripts/lifecycle.py down

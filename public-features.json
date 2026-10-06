@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "features": [
+    {
+      "id": "camera-1",
+      "description": "Inspect camera-1 real input and output"
+    },
+    {
+      "id": "mic-1",
+      "description": "Inspect mic-1 real input and output"
+    },
+    {
+      "id": "coordinator",
+      "description": "Inspect coordinator real input and output"
+    },
+    {
+      "id": "rover-1",
+      "description": "Inspect rover-1 real input and output"
+    },
+    {
+      "id": "drone-1",
+      "description": "Inspect drone-1 real input and output"
+    },
+    {
+      "id": "drone-2",
+      "description": "Inspect drone-2 real input and output"
+    },
+    {
+      "id": "presenter-stage",
+      "description": "Camera, microphone, device adapters, six beats and byte accounting"
+    },
+    {
+      "id": "stage-beats",
+      "description": "Six presenter beats with keyboard paging"
+    },
+    {
+      "id": "manual-rehearsal",
+      "description": "Card, covered card, go and stop manual inputs"
+    },
+    {
+      "id": "event-reveal",
+      "description": "Live messages and measured versus calculated byte accounting"
+    },
+    {
+      "id": "local-recognition",
+      "description": "Camera card and microphone keyword recognition remain local"
+    }
+  ],
+  "routes": [
+    {
+      "id": "presenter",
+      "path": "/"
+    },
+    {
+      "id": "example",
+      "path": "/example.html"
+    }
+  ],
+  "controls": [
+    {
+      "id": "copy-check",
+      "selector": "#copy-check"
+    },
+    {
+      "id": "copy-present",
+      "selector": "#copy-present"
+    },
+    {
+      "id": "copy-stop",
+      "selector": "#copy-stop"
+    },
+    {
+      "id": "copy-deploy",
+      "selector": "#copy-deploy"
+    },
+    {
+      "id": "theme",
+      "selector": "#theme"
+    },
+    {
+      "id": "presenter-previous",
+      "selector": "#previous",
+      "route": "/"
+    },
+    {
+      "id": "presenter-next",
+      "selector": "#next",
+      "route": "/"
+    },
+    {
+      "id": "presenter-start-camera",
+      "selector": "#start-camera",
+      "route": "/"
+    },
+    {
+      "id": "presenter-start-mic",
+      "selector": "#start-mic",
+      "route": "/"
+    },
+    {
+      "id": "presenter-manual-panel",
+      "selector": "#manual-panel",
+      "route": "/"
+    }
+  ],
+  "downloads": [],
+  "browser_assertions": [
+    {
+      "id": "stage-keys",
+      "description": "Left and Right preserve scroll"
+    },
+    {
+      "id": "aa-contrast",
+      "description": "Both themes meet WCAG AA"
+    },
+    {
+      "id": "phone-width",
+      "description": "No overflow at 320 to 1440 pixels"
+    },
+    {
+      "id": "copy-feedback",
+      "description": "Local success and failure feedback"
+    },
+    {
+      "id": "fixture-json",
+      "description": "Stage records match committed fixtures"
+    }
+  ]
+}

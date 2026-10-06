@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A job for the robot: pipeline explorer</title>
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="example.css">
+<script type="module" src="example.js"></script></head>
+<body><header><h1>A job for the robot</h1><nav aria-label="Pages"><a href="index.html">Presenter</a><a href="#explorer">Explorer</a><button id="theme" aria-pressed="false">Dark mode</button></nav></header>
+<main><section id="explanation"><h2>One card, one word, three devices</h2>
+<p>A camera chooses a destination. A microphone gives permission to move. Six local Expanso Edge pipelines connect recognition, coordination and device state. Raw images and audio stay on the Mac; only small JSON envelopes enter the pipelines.</p>
+<p>The stage uses map adapters for the rover and drones. Each adapter accepts the same movement commands a hardware adapter must implement. Physical hardware integration is future work.</p>
+<p>The coordinator owns the rules: confident cards select a destination, uncertain recognition holds movement, and stop wins over go within 1.5 seconds. The explorer shows committed fixture records run through the actual pipelines by the public check.</p></section>
+<section id="explorer" aria-labelledby="explorer-title"><h2 id="explorer-title">Follow the messages</h2><p>Use Left and Right to page through stages without losing your place. Input and output use the same fixture files as the public check.</p><nav class="step-list" aria-label="Pipeline stages">
+<button data-stage-id="camera-1" aria-controls="panel-camera-1" aria-current="step">1. Camera recognition</button>
+<button data-stage-id="mic-1" aria-controls="panel-mic-1">2. Microphone recognition</button>
+<button data-stage-id="coordinator" aria-controls="panel-coordinator">3. Coordinator decision and commands</button>
+<button data-stage-id="rover-1" aria-controls="panel-rover-1">4. Rover state</button>
+<button data-stage-id="drone-1" aria-controls="panel-drone-1">5. First drone state</button>
+<button data-stage-id="drone-2" aria-controls="panel-drone-2">6. Second drone state</button>
+</nav>
+<article class="stage-panel" id="panel-camera-1" data-stage-panel><h3>Camera recognition</h3><p>The camera model reads card 2 locally. The pipeline validates its recognition envelope, publishes it to the event bus and forwards it to the coordinator. Frames stay with the camera process.</p><div class="fixture-columns">
+<div class="json-panel"><h4>Input</h4><pre data-public-json tabindex="0" aria-label="camera-1 input">{
+  &quot;v&quot;: 1,
+  &quot;id&quot;: &quot;b9d00100-0000-4000-8000-000000000001&quot;,
+  &quot;ts&quot;: &quot;2026-10-06T16:00:00Z&quot;,
+  &quot;raw_bytes&quot;: 921600,
+  &quot;from&quot;: &quot;camera-1&quot;,
+  &quot;kind&quot;: &quot;recognition&quot;,
+  &quot;body&quot;: {
+    &quot;task&quot;: &quot;card&quot;,
+    &quot;value&quot;: 2,
+    &quot;confidence&quot;: 0.96
+  }
+}</pre></div>
+<div class="json-panel"><h4>Output</h4><pre data-public-json tabindex="0" aria-label="camera-1 output">{
+  &quot;v&quot;: 1,
+  &quot;id&quot;: &quot;b9d00100-0000-4000-8000-000000000001&quot;,
+  &quot;ts&quot;: &quot;2026-10-06T16:00:00Z&quot;,
+  &quot;raw_bytes&quot;: 921600,
+  &quot;from&quot;: &quot;camera-1&quot;,
+  &quot;kind&quot;: &quot;recognition&quot;,
+  &quot;body&quot;: {
+    &quot;task&quot;: &quot;card&quot;,
+    &quot;value&quot;: 2,
+    &quot;confidence&quot;: 0.96
+  }
+}</pre></div>
+</div></article>
+<article class="stage-panel" id="panel-mic-1" data-stage-panel hidden><h3>Microphone recognition</h3><p>The keyword model recognizes go locally. The pipeline validates the small recognition result and forwards it. The coordinator still needs a confident card and a clear stop window.</p><div class="fixture-columns">
+<div class="json-panel"><h4>Input</h4><pre data-public-json tabindex="0" aria-label="mic-1 input">{
+  &quot;v&quot;: 1,
+  &quot;id&quot;: &quot;b9d00100-0000-4000-8000-000000000001&quot;,
+  &quot;ts&quot;: &quot;2026-10-06T16:00:00Z&quot;,
+  &quot;raw_bytes&quot;: 32000,
+  &quot;from&quot;: &quot;mic-1&quot;,
+  &quot;kind&quot;: &quot;recognition&quot;,
+  &quot;body&quot;: {
+    &quot;task&quot;: &quot;keyword&quot;,
+    &quot;value&quot;: &quot;go&quot;,
+    &quot;confidence&quot;: 0.94
+  }
+}</pre></div>
+<div class="json-panel"><h4>Output</h4><pre data-public-json tabindex="0" aria-label="mic-1 output">{
+  &quot;v&quot;: 1,
+  &quot;id&quot;: &quot;b9d00100-0000-4000-8000-000000000001&quot;,
+  &quot;ts&quot;: &quot;2026-10-06T16:00:00Z&quot;,
+  &quot;raw_bytes&quot;: 32000,
+  &quot;from&quot;: &quot;mic-1&quot;,
+  &quot;kind&quot;: &quot;recognition&quot;,
+  &quot;body&quot;: {
+    &quot;task&quot;: &quot;keyword&quot;,
+    &quot;value&quot;: &quot;go&quot;,
+    &quot;confidence&quot;: 0.94
+  }
+}</pre></div>
+</div></article>
+<article class="stage-panel" id="panel-coordinator" data-stage-panel hidden><h3>Coordinator decision and commands</h3><p>Card 2 selects station 2. The coordinator emits one ready decision and a hold command for each device. It requires a fresh go before motion; stop has priority for 1.5 seconds. Event IDs and timestamps below were captured from Edge; new runs generate new metadata.</p><div class="fixture-columns">
+<div class="json-panel"><h4>Input</h4><pre data-public-json tabindex="0" aria-label="coordinator input">{
+  &quot;v&quot;: 1,
+  &quot;id&quot;: &quot;b9d00100-0000-4000-8000-000000000001&quot;,
+  &quot;ts&quot;: &quot;2026-10-06T16:00:00Z&quot;,
+  &quot;raw_bytes&quot;: 921600,
+  &quot;from&quot;: &quot;camera-1&quot;,
+  &quot;kind&quot;: &quot;recognition&quot;,
+  &quot;body&quot;: {
+    &quot;task&quot;: &quot;card&quot;,
+    &quot;value&quot;: 2,
+    &quot;confidence&quot;: 0.96
+  }
+}</pre></div>
+<div class="json-panel"><h4>Output</h4><pre data-public-json tabindex="0" aria-label="coordinator output">[
+  {
+    &quot;body&quot;: {
+      &quot;destination&quot;: 2,
+      &quot;phase&quot;: &quot;ready&quot;,
+      &quot;reason&quot;: &quot;destination selected&quot;
+    },
+    &quot;from&quot;: &quot;coordinator&quot;,
+    &quot;id&quot;: &quot;025c61be-bb90-4969-b1cb-23bece6786b4&quot;,
+    &quot;kind&quot;: &quot;decision&quot;,
+    &quot;raw_bytes&quot;: 0,
+    &quot;ts&quot;: &quot;2026-10-06T16:36:38.76451Z&quot;,
+    &quot;v&quot;: 1
+  },
+  {
+    &quot;body&quot;: {
+      &quot;action&quot;: &quot;hold&quot;,
+      &quot;station&quot;: 2,
+      &quot;target&quot;: &quot;rover-1&quot;
+    },
+    &quot;from&quot;: &quot;coordinator&quot;,
+    &quot;id&quot;: &quot;3cbf7e2f-23a4-4d21-b457-54c4ffb294c9&quot;,
+    &quot;kind&quot;: &quot;command&quot;,
+    &quot;raw_bytes&quot;: 0,
+    &quot;ts&quot;: &quot;2026-10-06T16:36:38.76451Z&quot;,
+    &quot;v&quot;: 1
+  },
+  {
+    &quot;body&quot;: {
+      &quot;action&quot;: &quot;hold&quot;,
+      &quot;station&quot;: 2,
+      &quot;target&quot;: &quot;drone-1&quot;
+    },
+    &quot;from&quot;: &quot;coordinator&quot;,
+    &quot;id&quot;: &quot;fc8971bb-73ec-429d-85c0-83d681d533ed&quot;,
+    &quot;kind&quot;: &quot;command&quot;,
+    &quot;raw_bytes&quot;: 0,
+    &quot;ts&quot;: &quot;2026-10-06T16:36:38.76451Z&quot;,
+    &quot;v&quot;: 1
+  },
+  {
+    &quot;body&quot;: {
+      &quot;action&quot;: &quot;hold&quot;,
+      &quot;station&quot;: 2,
+      &quot;target&quot;: &quot;drone-2&quot;
+    },
+    &quot;from&quot;: &quot;coordinator&quot;,
+    &quot;id&quot;: &quot;cf9f4469-22fe-47f4-bf61-5e5c311ba1cd&quot;,
+    &quot;kind&quot;: &quot;command&quot;,
+    &quot;raw_bytes&quot;: 0,
+    &quot;ts&quot;: &quot;2026-10-06T16:36:38.76451Z&quot;,
+    &quot;v&quot;: 1
+  }
+]</pre></div>
+</div></article>
+<article class="stage-panel" id="panel-rover-1" data-stage-panel hidden><h3>Rover state</h3><p>The rover adapter reports arrival at station 2. Its pipeline validates the state, publishes it to the bus and forwards it to the coordinator, where rover arrival completes the job.</p><div class="fixture-columns">
+<div class="json-panel"><h4>Input</h4><pre data-public-json tabindex="0" aria-label="rover-1 input">{
+  &quot;v&quot;: 1,
+  &quot;id&quot;: &quot;b9d00100-0000-4000-8000-000000000001&quot;,
+  &quot;ts&quot;: &quot;2026-10-06T16:00:00Z&quot;,
+  &quot;raw_bytes&quot;: 0,
+  &quot;from&quot;: &quot;rover-1&quot;,
+  &quot;kind&quot;: &quot;state&quot;,
+  &quot;body&quot;: {
+    &quot;phase&quot;: &quot;arrived&quot;,
+    &quot;station&quot;: 2,
+    &quot;x&quot;: 0.8,
+    &quot;y&quot;: 0.5
+  }
+}</pre></div>
+<div class="json-panel"><h4>Output</h4><pre data-public-json tabindex="0" aria-label="rover-1 output">{
+  &quot;v&quot;: 1,
+  &quot;id&quot;: &quot;b9d00100-0000-4000-8000-000000000001&quot;,
+  &quot;ts&quot;: &quot;2026-10-06T16:00:00Z&quot;,
+  &quot;raw_bytes&quot;: 0,
+  &quot;from&quot;: &quot;rover-1&quot;,
+  &quot;kind&quot;: &quot;state&quot;,
+  &quot;body&quot;: {
+    &quot;phase&quot;: &quot;arrived&quot;,
+    &quot;station&quot;: 2,
+    &quot;x&quot;: 0.8,
+    &quot;y&quot;: 0.5
+  }
+}</pre></div>
+</div></article>
+<article class="stage-panel" id="panel-drone-1" data-stage-panel hidden><h3>First drone state</h3><p>The first drone adapter reports its own state through its own pipeline. Drone arrival does not complete the rover job.</p><div class="fixture-columns">
+<div class="json-panel"><h4>Input</h4><pre data-public-json tabindex="0" aria-label="drone-1 input">{
+  &quot;v&quot;: 1,
+  &quot;id&quot;: &quot;b9d00100-0000-4000-8000-000000000001&quot;,
+  &quot;ts&quot;: &quot;2026-10-06T16:00:00Z&quot;,
+  &quot;raw_bytes&quot;: 0,
+  &quot;from&quot;: &quot;drone-1&quot;,
+  &quot;kind&quot;: &quot;state&quot;,
+  &quot;body&quot;: {
+    &quot;phase&quot;: &quot;arrived&quot;,
+    &quot;station&quot;: 2,
+    &quot;x&quot;: 0.8,
+    &quot;y&quot;: 0.5
+  }
+}</pre></div>
+<div class="json-panel"><h4>Output</h4><pre data-public-json tabindex="0" aria-label="drone-1 output">{
+  &quot;v&quot;: 1,
+  &quot;id&quot;: &quot;b9d00100-0000-4000-8000-000000000001&quot;,
+  &quot;ts&quot;: &quot;2026-10-06T16:00:00Z&quot;,
+  &quot;raw_bytes&quot;: 0,
+  &quot;from&quot;: &quot;drone-1&quot;,
+  &quot;kind&quot;: &quot;state&quot;,
+  &quot;body&quot;: {
+    &quot;phase&quot;: &quot;arrived&quot;,
+    &quot;station&quot;: 2,
+    &quot;x&quot;: 0.8,
+    &quot;y&quot;: 0.5
+  }
+}</pre></div>
+</div></article>
+<article class="stage-panel" id="panel-drone-2" data-stage-panel hidden><h3>Second drone state</h3><p>The second drone has the same state contract and a separate node identity. Commands are delivered to its adapter through the bus; only state reports return to the coordinator.</p><div class="fixture-columns">
+<div class="json-panel"><h4>Input</h4><pre data-public-json tabindex="0" aria-label="drone-2 input">{
+  &quot;v&quot;: 1,
+  &quot;id&quot;: &quot;b9d00100-0000-4000-8000-000000000001&quot;,
+  &quot;ts&quot;: &quot;2026-10-06T16:00:00Z&quot;,
+  &quot;raw_bytes&quot;: 0,
+  &quot;from&quot;: &quot;drone-2&quot;,
+  &quot;kind&quot;: &quot;state&quot;,
+  &quot;body&quot;: {
+    &quot;phase&quot;: &quot;arrived&quot;,
+    &quot;station&quot;: 2,
+    &quot;x&quot;: 0.8,
+    &quot;y&quot;: 0.5
+  }
+}</pre></div>
+<div class="json-panel"><h4>Output</h4><pre data-public-json tabindex="0" aria-label="drone-2 output">{
+  &quot;v&quot;: 1,
+  &quot;id&quot;: &quot;b9d00100-0000-4000-8000-000000000001&quot;,
+  &quot;ts&quot;: &quot;2026-10-06T16:00:00Z&quot;,
+  &quot;raw_bytes&quot;: 0,
+  &quot;from&quot;: &quot;drone-2&quot;,
+  &quot;kind&quot;: &quot;state&quot;,
+  &quot;body&quot;: {
+    &quot;phase&quot;: &quot;arrived&quot;,
+    &quot;station&quot;: 2,
+    &quot;x&quot;: 0.8,
+    &quot;y&quot;: 0.5
+  }
+}</pre></div>
+</div></article>
+</section><section id="run"><h2>Run locally</h2>
+<p>Install Expanso Edge and CLI v2.1.21, just, uv, and Node.js. From this repository, run the fixture check without a camera, microphone or credentials:</p>
+<div class="command"><pre id="command-check">just public-check</pre><button id="copy-check" data-copy="command-check">Copy check command</button><span class="feedback" id="copy-check-status" role="status"></span></div>
+<div class="command"><pre id="command-present">just up</pre><button id="copy-present" data-copy="command-present">Copy present command</button><span class="feedback" id="copy-present-status" role="status"></span></div>
+<div class="command"><pre id="command-stop">just down</pre><button id="copy-stop" data-copy="command-stop">Copy stop command</button><span class="feedback" id="copy-stop-status" role="status"></span></div>
+<p>The presenter runs at <a href="http://127.0.0.1:4180/">127.0.0.1:4180</a>. Its first start installs pinned speech dependencies. Grant camera and microphone permissions when ready. Stop the presenter before running the fixture suite because both use the local event bus.</p></section>
+<section id="deploy"><h2>Deploy the local jobs</h2><p>Stage 1 runs six Edge nodes on this Mac. The launcher deploys each checked-in job to its matching local node and stops all six with just down. To redeploy the coordinator while the launcher is running:</p>
+<div class="command"><pre id="command-deploy">expanso-cli --endpoint http://127.0.0.1:4200 \
+  job deploy pipelines/coordinator.yaml</pre><button id="copy-deploy" data-copy="command-deploy">Copy deploy command</button><span class="feedback" id="copy-deploy-status" role="status"></span></div>
+<p>These loopback addresses are for this local stage. A hardware rollout requires device adapters, authenticated encrypted transport and node routing before deployment through Expanso Cloud. The hardware buying guide documents that later work; this example makes no physical deployment claim.</p></section></main><footer><p>Expanso Edge · Six local pipelines · Raw media stays local</p></footer></body></html>

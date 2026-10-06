@@ -1,5 +1,11 @@
 # Hardware for the physical stage
 
+> Future hardware buying guide. These products and SDKs are procurement research,
+> outside the runnable Stage 1 example. No listed rover, aircraft, radio,
+> embedded OS or firmware is deployed or validated by the public fixture run.
+> Stage 1 uses the Mac camera and microphone with map device adapters.
+
+
 Prices and stock were checked on 6 October 2026 on the makers' own stores, in US dollars with US delivery. Stock shown on a store page is not reserved inventory, so check again before ordering.
 
 ## Recommendation

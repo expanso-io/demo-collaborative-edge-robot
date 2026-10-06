@@ -1,0 +1,171 @@
+version = 1
+
+[repository]
+name = "demo-collaborative-edge-robot"
+published = true
+
+[web]
+document = "web/example.html"
+explanation_selector = "#explanation"
+explorer_selector = "#explorer"
+run_selector = "#run"
+deploy_selector = "#deploy"
+
+[browser]
+url = "http://127.0.0.1:4180/example.html"
+ready_url = "http://127.0.0.1:4180/example.html"
+start_command = ["uv", "run", "--offline", "--no-project", "scripts/public-example.py"]
+stop_command = ["true"]
+theme_toggle_selector = "#theme"
+stage_selector = "[data-stage-id]"
+current_stage_selector = "[data-stage-id][aria-current='step']"
+scroll_anchor_selector = "#explorer"
+json_selectors = ["pre[data-public-json]"]
+
+[[services]]
+id = "event-bus"
+command = ["uv", "run", "--offline", "--no-project", "scripts/public-example.py", "--bus"]
+ready_url = "http://127.0.0.1:4190/health"
+stop_command = ["true"]
+
+[[browser.controls]]
+id = "copy-check"
+kind = "copy"
+selector = "#copy-check"
+feedback_selector = "#copy-check-status"
+success_text = "Copied"
+failure_text = "Copy failed"
+
+[[browser.controls]]
+id = "copy-present"
+kind = "copy"
+selector = "#copy-present"
+feedback_selector = "#copy-present-status"
+success_text = "Copied"
+failure_text = "Copy failed"
+
+[[browser.controls]]
+id = "copy-stop"
+kind = "copy"
+selector = "#copy-stop"
+feedback_selector = "#copy-stop-status"
+success_text = "Copied"
+failure_text = "Copy failed"
+
+[[browser.controls]]
+id = "copy-deploy"
+kind = "copy"
+selector = "#copy-deploy"
+feedback_selector = "#copy-deploy-status"
+success_text = "Copied"
+failure_text = "Copy failed"
+
+[[pipelines]]
+id = "camera-1"
+path = "pipelines/camera-1.yaml"
+input = "web/fixtures/camera-1.input.jsonl"
+expected = "web/fixtures/camera-1.expected.jsonl"
+timeout_seconds = 40
+
+[[stages]]
+id = "camera-1"
+pipeline = "camera-1"
+selector = "[data-stage-id='camera-1']"
+input = "web/fixtures/camera-1.input.jsonl"
+output = "web/fixtures/camera-1.expected.jsonl"
+
+[[pipelines]]
+id = "mic-1"
+path = "pipelines/mic-1.yaml"
+input = "web/fixtures/mic-1.input.jsonl"
+expected = "web/fixtures/mic-1.expected.jsonl"
+timeout_seconds = 40
+
+[[stages]]
+id = "mic-1"
+pipeline = "mic-1"
+selector = "[data-stage-id='mic-1']"
+input = "web/fixtures/mic-1.input.jsonl"
+output = "web/fixtures/mic-1.expected.jsonl"
+
+[[pipelines]]
+id = "coordinator"
+path = "pipelines/coordinator.yaml"
+input = "web/fixtures/coordinator.input.jsonl"
+expected_schema = "web/fixtures/coordinator.expected.schema.json"
+expected_count = 4
+timeout_seconds = 40
+
+[[stages]]
+id = "coordinator"
+pipeline = "coordinator"
+selector = "[data-stage-id='coordinator']"
+input = "web/fixtures/coordinator.input.jsonl"
+output = "web/fixtures/coordinator.expected.jsonl"
+
+[[pipelines]]
+id = "rover-1"
+path = "pipelines/rover-1.yaml"
+input = "web/fixtures/rover-1.input.jsonl"
+expected = "web/fixtures/rover-1.expected.jsonl"
+timeout_seconds = 40
+
+[[stages]]
+id = "rover-1"
+pipeline = "rover-1"
+selector = "[data-stage-id='rover-1']"
+input = "web/fixtures/rover-1.input.jsonl"
+output = "web/fixtures/rover-1.expected.jsonl"
+
+[[pipelines]]
+id = "drone-1"
+path = "pipelines/drone-1.yaml"
+input = "web/fixtures/drone-1.input.jsonl"
+expected = "web/fixtures/drone-1.expected.jsonl"
+timeout_seconds = 40
+
+[[stages]]
+id = "drone-1"
+pipeline = "drone-1"
+selector = "[data-stage-id='drone-1']"
+input = "web/fixtures/drone-1.input.jsonl"
+output = "web/fixtures/drone-1.expected.jsonl"
+
+[[pipelines]]
+id = "drone-2"
+path = "pipelines/drone-2.yaml"
+input = "web/fixtures/drone-2.input.jsonl"
+expected = "web/fixtures/drone-2.expected.jsonl"
+timeout_seconds = 40
+
+[[stages]]
+id = "drone-2"
+pipeline = "drone-2"
+selector = "[data-stage-id='drone-2']"
+input = "web/fixtures/drone-2.input.jsonl"
+output = "web/fixtures/drone-2.expected.jsonl"
+
+[[yaml]]
+path = "config/local.yaml"
+role = "support"
+
+[[platforms]]
+name = "expanso-edge"
+profile = "other"
+files = ["config/local.yaml", "docs/platform-scope.md"]
+validators = [["uv", "run", "--offline", "--no-project", "tests/public-contract.py"]]
+
+[[platforms]]
+name = "expanso-cloud"
+profile = "managed-cloud"
+files = ["docs/platform-scope.md"]
+local_replay_pipeline = "coordinator"
+
+[[platforms]]
+name = "future-hardware"
+profile = "other"
+files = ["docs/hardware.md", "docs/platform-scope.md"]
+
+[regressions]
+features = "public-features.json"
+removal_files = ["public-removals/*.json"]

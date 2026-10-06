@@ -68,13 +68,16 @@ def main():
         else:
             incoming = {"oneOf": [schema("camera-1"), schema("mic-1"),
                                     *[schema(device)["oneOf"][1] for device in ("rover-1", "drone-1", "drone-2")]]}
+            # Keep HTTP validation before the timer merge: clients cannot inject ticks.
             server["processors"] = [{"mapping": 'root = this.json_schema(' + json.dumps(json.dumps(incoming)) + ')'},
+                                    {"mapping": 'root = if errored() || content().length() >= 1024 { deleted() } else { this }'}]
+            validation = [{"mapping": 'root = if this.tick.or(false) { this } else { this.json_schema(' + json.dumps(json.dumps(incoming)) + ') }'},
                                       {"mapping": 'root = if errored() || content().length() >= 1024 { deleted() } else { this }'}]
             config = {"input": {"broker": {"inputs": [server, {"generate": {"interval": "50ms", "mapping": 'root = {"tick":true}'}}]}},
                       "cache_resources": [{"label": "coordination", "memory": {"compaction_interval": "", "init_values": {
                           "state": json.dumps({"destination": None, "phase": "idle", "reason": "waiting for a card",
                                                "pending": 0, "last_stop": 0, "clear": False})}}}],
-                      "pipeline": {"threads": 1, "processors": [
+                      "pipeline": {"threads": 1, "processors": validation + [
                           {"mapping": 'root.event = this'},
                           {"branch": {"processors": [{"cache": {"resource": "coordination", "operator": "get", "key": "state"}}],
                                       "result_map": 'root.saved = content().string().parse_json()'}},

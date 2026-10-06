@@ -4,7 +4,8 @@ A volunteer gives a robot a job using two things anyone can do: hold up a card
 and say a word. A camera reads the card, a microphone hears "go" or "stop", and
 a rover and two drones carry out the job together.
 
-Every device runs its own Expanso Edge pipeline. Each model does one narrow task
+Each device has its own Expanso Edge pipeline. Stage 1 runs the six logical
+nodes on one Mac, with map adapters for the rover and drones. Each model does one narrow task
 on its own device. The camera reads one digit, and the microphone hears two
 words. Only small JSON results, about 200 bytes each, travel between devices.
 Frames and audio never leave the machine that captured them. The rules that
@@ -19,18 +20,23 @@ decide what happens live in the coordinator pipeline:
 
 When the rover reports that it has reached the station, the job is done.
 
+[Explore the six pipelines](web/example.html): real fixture input and output,
+coordination decisions, and local run and deploy commands. With `just up`
+running, open `http://127.0.0.1:4180/example.html`.
+
 ## Run it
 
-You need `expanso-edge`, `uv` and Node.js on a Mac with a webcam and a
+You need `expanso-edge`, `expanso-cli`, `just`, `uv` and Node.js on a Mac with a webcam and a
 microphone. The first run installs the pinned speech libraries once, which
 needs a network connection. After that it runs offline.
 
 ```sh
-scripts/run
+just up
 ```
 
-Open the address it prints, `http://127.0.0.1:4180/`. Press Ctrl-C, or run
-`scripts/stop`, to stop every node.
+Open the address it prints, `http://127.0.0.1:4180/`. The command returns once
+all six nodes are ready. Run
+`just down` to stop them and verify that the ports are free.
 
 Everything binds to `127.0.0.1` and runs offline. There are no cloud speech or
 vision services, no API keys, and no network calls once it is running.
@@ -92,3 +98,20 @@ Each part was tested on its own, and the whole demo was run end to end:
 
 [docs/proof/2026-10-06-stage-1.md](docs/proof/2026-10-06-stage-1.md) records
 the end-to-end run with a screenshot of each beat.
+
+## Public checks
+
+Stop the demo with `just down`, then run `just check` for all five Stage 1
+suites. `just public-check` installs pinned browser-check dependencies and
+runs the vendored public bar, including six file replays and the rendered
+explorer. It needs a network connection on first setup. Reports are written to
+`artifacts/public-bar.md` and `artifacts/public-bar.json`.
+
+`just record-check` stops the stage, runs the suites, starts a fresh stage and
+prints the recording checklist. Finish with `just down`.
+`just recording-preflight` uses the sibling `_demo-kit` checkout and is for
+maintainers who have that kit installed beside this repository.
+
+The public workflow checks all five criteria. A separate Stage 1 workflow
+runs the recognizer, coordination, adapter and accounting suites. Local proof
+is recorded under `docs/proof/`; hosted CI evidence begins after publication.

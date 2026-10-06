@@ -1,0 +1,4 @@
+{"body":{"destination":2,"phase":"ready","reason":"destination selected"},"from":"coordinator","id":"025c61be-bb90-4969-b1cb-23bece6786b4","kind":"decision","raw_bytes":0,"ts":"2026-10-06T16:36:38.76451Z","v":1}
+{"body":{"action":"hold","station":2,"target":"rover-1"},"from":"coordinator","id":"3cbf7e2f-23a4-4d21-b457-54c4ffb294c9","kind":"command","raw_bytes":0,"ts":"2026-10-06T16:36:38.76451Z","v":1}
+{"body":{"action":"hold","station":2,"target":"drone-1"},"from":"coordinator","id":"fc8971bb-73ec-429d-85c0-83d681d533ed","kind":"command","raw_bytes":0,"ts":"2026-10-06T16:36:38.76451Z","v":1}
+{"body":{"action":"hold","station":2,"target":"drone-2"},"from":"coordinator","id":"cf9f4469-22fe-47f4-bf61-5e5c311ba1cd","kind":"command","raw_bytes":0,"ts":"2026-10-06T16:36:38.76451Z","v":1}

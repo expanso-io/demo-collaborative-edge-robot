@@ -1,0 +1,26 @@
+/* The presenter palette and controls are shared through style.css. */
+header, main, footer { max-width: 1080px; }
+header { flex-wrap: wrap; }
+header nav { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; }
+a { color: var(--accent); text-underline-offset: .2em; }
+main { display: block; }
+section { padding-block: 24px; border-bottom: 1px solid var(--line); }
+h2, h3, p { margin-bottom: 16px; }
+p { max-width: 72ch; }
+.step-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; }
+[aria-current="step"] { background: var(--selected); border-color: var(--accent); }
+.stage-panel { min-height: 700px; }
+.json-panel { min-width: 0; }
+pre { background: var(--panel); padding: 16px; white-space: pre-wrap;
+  overflow-wrap: anywhere; font-size: 14px; line-height: 1.5; margin: 0 0 12px; }
+.json-panel pre { height: 350px; overflow-y: auto; }
+.fixture-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+.feedback { display: block; min-height: 28px; margin-top: 8px; font-size: 16px; }
+.command { margin-block: 24px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+@media (max-width: 650px) {
+  header, main, footer { padding: 20px 16px; }
+  .fixture-columns { grid-template-columns: minmax(0, 1fr); }
+  h1 { font-size: 22px; }
+  .step-list button { flex: 1 1 120px; }
+}
