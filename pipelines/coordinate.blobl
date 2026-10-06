@@ -5,20 +5,22 @@ let now = timestamp_unix_milli()
 let tick = $e.tick.or(false)
 let card = $e.from.or("") == "camera-1"
 let mic = $e.from.or("") == "mic-1"
+let state = $e.kind.or("") == "state"
 let stop = $mic && $e.body.value.or("") == "stop"
 let valid = $e.body.confidence.or(0) >= env("CONFIDENCE_THRESHOLD").number()
+let changed_card = $card && $valid && $e.body.value != null && ($e.body.value != $s.destination || !$s.clear)
 let unclear = !$tick && ($card || $mic) && (!$valid || $e.body.value == null)
 let go = $mic && $valid && $e.body.value.or("") == "go"
 let blocked = $now - $s.last_stop < 1500
 let due = $tick && $s.pending > 0 && $now >= $s.pending && !$blocked
 root.saved = $s
 root.action = ""
-root.emit = !$tick || $due
+root.emit = (!$tick && !$state && !($card && $valid && !$changed_card && $e.body.value != null)) || $due
 root.saved = if $stop {
   $s.assign({"phase":"paused", "reason":"stop wins", "pending":0, "last_stop":$now})
 } else if $unclear {
   $s.assign({"phase":"uncertain", "reason":"below confidence threshold or unreadable input", "pending":0, "clear":false})
-} else if $card && $valid {
+} else if $changed_card {
   $s.assign({"destination":$e.body.value, "phase":"ready", "reason":"destination selected", "pending":0, "clear":true})
 } else if $go && $blocked {
   $s.assign({"phase":"paused", "reason":"stop wins within 1.5 seconds", "pending":0})
@@ -31,4 +33,4 @@ root.saved = if $stop {
 } else if $due {
   $s.assign({"phase":"moving", "reason":"go accepted", "pending":0})
 } else { $s }
-root.action = if $stop || ($go && $blocked) { "pause" } else if $unclear || ($card && $valid) { "hold" } else if $due { "move_to" } else { "" }
+root.action = if $stop || ($go && $blocked) { "pause" } else if $unclear || $changed_card { "hold" } else if $due { "move_to" } else { "" }

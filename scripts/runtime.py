@@ -13,6 +13,7 @@ import sys
 import threading
 import time
 import urllib.request
+import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIME = ROOT / ".runtime"
@@ -23,9 +24,9 @@ ORIGIN = "http://127.0.0.1:4180"
 PROXYLESS = urllib.request.build_opener(urllib.request.ProxyHandler({}))
 
 
-def request(url, data=None):
+def request(url, data=None, method=None):
     headers = {"Content-Type": "application/json"}
-    with PROXYLESS.open(urllib.request.Request(url, data=data, headers=headers), timeout=3) as response:
+    with PROXYLESS.open(urllib.request.Request(url, data=data, headers=headers, method=method), timeout=3) as response:
         return response.read()
 
 
@@ -149,7 +150,7 @@ def stop():
         return
     info = json.loads(record.read_text())
     result = subprocess.run(["ps", "-p", str(info["pid"]), "-o", "command="], capture_output=True, text=True)
-    if str(ROOT / "scripts/runtime.py") not in result.stdout and "scripts/runtime.py" not in result.stdout:
+    if str(ROOT / "scripts/runtime.py") not in result.stdout:
         raise RuntimeError("Recorded PID is no longer the demo launcher; refusing to signal it.")
     os.kill(info["pid"], signal.SIGTERM)
     deadline = time.monotonic() + 20
@@ -173,9 +174,13 @@ def run():
     RUNTIME.mkdir(mode=0o700, exist_ok=True)
     os.chmod(RUNTIME, 0o700)
     record = RUNTIME / "launcher.json"
+    ready = RUNTIME / "ready"
     # Exclusive create prevents two launchers from racing for the same nodes.
     with record.open("x") as stream:
         json.dump({"pid": os.getpid(), "root": str(ROOT)}, stream)
+    ready.unlink(missing_ok=True)
+    run_dir = RUNTIME / "runs" / str(uuid.uuid4())
+    run_dir.mkdir(parents=True, mode=0o700)
     children, servers, logs = [], [], []
     stopping = threading.Event()
     signal.signal(signal.SIGTERM, lambda *_: stopping.set())
@@ -194,7 +199,7 @@ def run():
         env = {key: value for key, value in os.environ.items() if not key.startswith("EXPANSO_")}
         env["CONFIDENCE_THRESHOLD"] = str(threshold)
         for node, (_, api) in NODES.items():
-            data = RUNTIME / node
+            data = run_dir / node
             data.mkdir(mode=0o700, exist_ok=True)
             log = (RUNTIME / f"{node}.log").open("w")
             logs.append(log)
@@ -207,13 +212,14 @@ def run():
             if stopping.wait(.1) or any(child.poll() is not None for child in children) or time.monotonic() > deadline:
                 raise RuntimeError("Edge startup failed; inspect .runtime/*.log")
         for node, (_, api) in NODES.items():
-            spec = (ROOT / "pipelines" / f"{node}.yaml").read_bytes()
-            request(f"http://127.0.0.1:{api}/api/v1/jobs", spec)
+            spec = json.loads((ROOT / "pipelines" / f"{node}.yaml").read_text())
+            request(f"http://127.0.0.1:{api}/api/v1/jobs", json.dumps({"spec": spec}).encode(), method="PUT")
         deadline = time.monotonic() + 20
         while not all(listening(port) for port, _ in NODES.values()):
             if stopping.wait(.1) or time.monotonic() > deadline:
                 raise RuntimeError("Pipeline startup failed; inspect .runtime/*/executions and node logs")
         print(f"Ready: {ORIGIN}/ (six offline Edge nodes; threshold {threshold:.2f})", flush=True)
+        ready.write_text(str(os.getpid()))
         while not stopping.wait(.25):
             if any(child.poll() is not None for child in children):
                 raise RuntimeError("An Edge node exited; stopping the demo. Inspect .runtime/*.log")
@@ -236,6 +242,7 @@ def run():
         for log in logs:
             log.close()
         record.unlink(missing_ok=True)
+        ready.unlink(missing_ok=True)
         lingering = [port for port in PORTS if listening(port)]
         if lingering:
             raise RuntimeError(f"Ports remain occupied after shutdown: {lingering}")

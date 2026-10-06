@@ -1,0 +1,9 @@
+{
+  "card1": {"device":"camera-1", "task":"card", "value":1, "confidence":0.96, "raw_bytes":921600},
+  "card2": {"device":"camera-1", "task":"card", "value":2, "confidence":0.93, "raw_bytes":921600},
+  "unclear": {"device":"camera-1", "task":"card", "value":null, "confidence":0.22, "raw_bytes":921600},
+  "below": {"device":"camera-1", "task":"card", "value":2, "confidence":0.799, "raw_bytes":921600},
+  "boundary": {"device":"camera-1", "task":"card", "value":1, "confidence":0.80, "raw_bytes":921600},
+  "go": {"device":"mic-1", "task":"keyword", "value":"go", "confidence":0.97, "raw_bytes":32000},
+  "stop": {"device":"mic-1", "task":"keyword", "value":"stop", "confidence":0.99, "raw_bytes":32000}
+}

@@ -1,5 +1,6 @@
 let s = this.saved
 let action = this.action
-let decision = {"v":1,"id":uuid_v4(),"ts":now(),"from":"coordinator","kind":"decision","body":{"destination":$s.destination,"phase":$s.phase,"reason":$s.reason},"raw_bytes":0}
-let commands = ["rover-1","drone-1","drone-2"].map_each(target -> {"v":1,"id":uuid_v4(),"ts":now(),"from":"coordinator","kind":"command","body":{"target":target,"action":$action,"station":$s.destination},"raw_bytes":0})
+let stamp = now().ts_format("2006-01-02T15:04:05.999999999Z07:00", "UTC")
+let decision = {"v":1,"id":uuid_v4(),"ts":$stamp,"from":"coordinator","kind":"decision","body":{"destination":$s.destination,"phase":$s.phase,"reason":$s.reason},"raw_bytes":0}
+let commands = ["rover-1","drone-1","drone-2"].map_each(target -> {"v":1,"id":uuid_v4(),"ts":$stamp,"from":"coordinator","kind":"command","body":{"target":target,"action":$action,"station":$s.destination},"raw_bytes":0})
 root = if !this.emit { deleted() } else if $action == "" { [$decision] } else { [$decision].concat($commands) }

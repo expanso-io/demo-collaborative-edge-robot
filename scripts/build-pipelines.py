@@ -61,9 +61,13 @@ def main():
             if node in ("camera-1", "mic-1"):
                 processors += [bus_branch(), {"mapping": 'root = if errored() { deleted() } else { this }'}]
                 output = http_output("http://127.0.0.1:4100/events")
+            else:
+                processors += [bus_branch(), {"mapping": 'root = if errored() || this.kind == "command" { deleted() } else { this }'}]
+                output = http_output("http://127.0.0.1:4100/events")
             config = {"input": server, "pipeline": {"threads": 1, "processors": processors}, "output": output}
         else:
-            incoming = {"oneOf": [schema("camera-1"), schema("mic-1")]}
+            incoming = {"oneOf": [schema("camera-1"), schema("mic-1"),
+                                    *[schema(device)["oneOf"][1] for device in ("rover-1", "drone-1", "drone-2")]]}
             server["processors"] = [{"mapping": 'root = this.json_schema(' + json.dumps(json.dumps(incoming)) + ')'},
                                       {"mapping": 'root = if errored() || content().length() >= 1024 { deleted() } else { this }'}]
             config = {"input": {"broker": {"inputs": [server, {"generate": {"interval": "50ms", "mapping": 'root = {"tick":true}'}}]}},
@@ -78,11 +82,9 @@ def main():
                           {"cache": {"resource": "coordination", "operator": "set", "key": "state", "value": '${! json("saved") }'}},
                           {"mapping": (ROOT / "pipelines/envelopes.blobl").read_text()},
                           {"unarchive": {"format": "json_array"}},
+                          {"split": {"size": 1}},
                       ]},
-                      "output": {"switch": {"cases": [
-                          {"check": 'this.kind == "decision"', "output": http_output("http://127.0.0.1:4190/events")},
-                          *[{"check": f'this.body.target == "{target}"', "output": http_output(f"http://127.0.0.1:{target_port}/events")}
-                            for target, target_port in NODES.items() if target in ("rover-1", "drone-1", "drone-2")]]}}}
+                      "output": http_output('http://127.0.0.1:${! if json("kind") == "decision" {4190} else if json("body.target") == "rover-1" {4111} else if json("body.target") == "drone-1" {4121} else {4122} }/events')}
         path = ROOT / "pipelines" / f"{node}.yaml"
         path.write_text(json.dumps({"name": node, "type": "pipeline", "config": config}, indent=2) + "\n")
 

@@ -20,7 +20,7 @@
             },
             "processors": [
               {
-                "mapping": "root = this.json_schema(\"{\\\"oneOf\\\": [{\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"v\\\", \\\"id\\\", \\\"ts\\\", \\\"raw_bytes\\\", \\\"from\\\", \\\"kind\\\", \\\"body\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"v\\\": {\\\"enum\\\": [1]}, \\\"id\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$\\\"}, \\\"ts\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"Z$\\\", \\\"format\\\": \\\"date-time\\\"}, \\\"raw_bytes\\\": {\\\"type\\\": \\\"integer\\\", \\\"minimum\\\": 0}, \\\"from\\\": {\\\"enum\\\": [\\\"camera-1\\\"]}, \\\"kind\\\": {\\\"enum\\\": [\\\"recognition\\\"]}, \\\"body\\\": {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"task\\\", \\\"value\\\", \\\"confidence\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"task\\\": {\\\"enum\\\": [\\\"card\\\"]}, \\\"value\\\": {\\\"enum\\\": [1, 2, null]}, \\\"confidence\\\": {\\\"type\\\": \\\"number\\\", \\\"minimum\\\": 0, \\\"maximum\\\": 1}}}}}, {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"v\\\", \\\"id\\\", \\\"ts\\\", \\\"raw_bytes\\\", \\\"from\\\", \\\"kind\\\", \\\"body\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"v\\\": {\\\"enum\\\": [1]}, \\\"id\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$\\\"}, \\\"ts\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"Z$\\\", \\\"format\\\": \\\"date-time\\\"}, \\\"raw_bytes\\\": {\\\"type\\\": \\\"integer\\\", \\\"minimum\\\": 0}, \\\"from\\\": {\\\"enum\\\": [\\\"mic-1\\\"]}, \\\"kind\\\": {\\\"enum\\\": [\\\"recognition\\\"]}, \\\"body\\\": {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"task\\\", \\\"value\\\", \\\"confidence\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"task\\\": {\\\"enum\\\": [\\\"keyword\\\"]}, \\\"value\\\": {\\\"enum\\\": [\\\"go\\\", \\\"stop\\\", null]}, \\\"confidence\\\": {\\\"type\\\": \\\"number\\\", \\\"minimum\\\": 0, \\\"maximum\\\": 1}}}}}]}\")"
+                "mapping": "root = this.json_schema(\"{\\\"oneOf\\\": [{\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"v\\\", \\\"id\\\", \\\"ts\\\", \\\"raw_bytes\\\", \\\"from\\\", \\\"kind\\\", \\\"body\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"v\\\": {\\\"enum\\\": [1]}, \\\"id\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$\\\"}, \\\"ts\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"Z$\\\", \\\"format\\\": \\\"date-time\\\"}, \\\"raw_bytes\\\": {\\\"type\\\": \\\"integer\\\", \\\"minimum\\\": 0}, \\\"from\\\": {\\\"enum\\\": [\\\"camera-1\\\"]}, \\\"kind\\\": {\\\"enum\\\": [\\\"recognition\\\"]}, \\\"body\\\": {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"task\\\", \\\"value\\\", \\\"confidence\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"task\\\": {\\\"enum\\\": [\\\"card\\\"]}, \\\"value\\\": {\\\"enum\\\": [1, 2, null]}, \\\"confidence\\\": {\\\"type\\\": \\\"number\\\", \\\"minimum\\\": 0, \\\"maximum\\\": 1}}}}}, {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"v\\\", \\\"id\\\", \\\"ts\\\", \\\"raw_bytes\\\", \\\"from\\\", \\\"kind\\\", \\\"body\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"v\\\": {\\\"enum\\\": [1]}, \\\"id\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$\\\"}, \\\"ts\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"Z$\\\", \\\"format\\\": \\\"date-time\\\"}, \\\"raw_bytes\\\": {\\\"type\\\": \\\"integer\\\", \\\"minimum\\\": 0}, \\\"from\\\": {\\\"enum\\\": [\\\"mic-1\\\"]}, \\\"kind\\\": {\\\"enum\\\": [\\\"recognition\\\"]}, \\\"body\\\": {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"task\\\", \\\"value\\\", \\\"confidence\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"task\\\": {\\\"enum\\\": [\\\"keyword\\\"]}, \\\"value\\\": {\\\"enum\\\": [\\\"go\\\", \\\"stop\\\", null]}, \\\"confidence\\\": {\\\"type\\\": \\\"number\\\", \\\"minimum\\\": 0, \\\"maximum\\\": 1}}}}}, {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"v\\\", \\\"id\\\", \\\"ts\\\", \\\"raw_bytes\\\", \\\"from\\\", \\\"kind\\\", \\\"body\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"v\\\": {\\\"enum\\\": [1]}, \\\"id\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$\\\"}, \\\"ts\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"Z$\\\", \\\"format\\\": \\\"date-time\\\"}, \\\"raw_bytes\\\": {\\\"type\\\": \\\"integer\\\", \\\"minimum\\\": 0}, \\\"from\\\": {\\\"enum\\\": [\\\"rover-1\\\"]}, \\\"kind\\\": {\\\"enum\\\": [\\\"state\\\"]}, \\\"body\\\": {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"phase\\\", \\\"station\\\", \\\"x\\\", \\\"y\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"phase\\\": {\\\"enum\\\": [\\\"idle\\\", \\\"moving\\\", \\\"paused\\\", \\\"arrived\\\"]}, \\\"station\\\": {\\\"enum\\\": [1, 2, null]}, \\\"x\\\": {\\\"type\\\": \\\"number\\\", \\\"minimum\\\": 0, \\\"maximum\\\": 1}, \\\"y\\\": {\\\"type\\\": \\\"number\\\", \\\"minimum\\\": 0, \\\"maximum\\\": 1}}}}}, {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"v\\\", \\\"id\\\", \\\"ts\\\", \\\"raw_bytes\\\", \\\"from\\\", \\\"kind\\\", \\\"body\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"v\\\": {\\\"enum\\\": [1]}, \\\"id\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$\\\"}, \\\"ts\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"Z$\\\", \\\"format\\\": \\\"date-time\\\"}, \\\"raw_bytes\\\": {\\\"type\\\": \\\"integer\\\", \\\"minimum\\\": 0}, \\\"from\\\": {\\\"enum\\\": [\\\"drone-1\\\"]}, \\\"kind\\\": {\\\"enum\\\": [\\\"state\\\"]}, \\\"body\\\": {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"phase\\\", \\\"station\\\", \\\"x\\\", \\\"y\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"phase\\\": {\\\"enum\\\": [\\\"idle\\\", \\\"moving\\\", \\\"paused\\\", \\\"arrived\\\"]}, \\\"station\\\": {\\\"enum\\\": [1, 2, null]}, \\\"x\\\": {\\\"type\\\": \\\"number\\\", \\\"minimum\\\": 0, \\\"maximum\\\": 1}, \\\"y\\\": {\\\"type\\\": \\\"number\\\", \\\"minimum\\\": 0, \\\"maximum\\\": 1}}}}}, {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"v\\\", \\\"id\\\", \\\"ts\\\", \\\"raw_bytes\\\", \\\"from\\\", \\\"kind\\\", \\\"body\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"v\\\": {\\\"enum\\\": [1]}, \\\"id\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$\\\"}, \\\"ts\\\": {\\\"type\\\": \\\"string\\\", \\\"pattern\\\": \\\"Z$\\\", \\\"format\\\": \\\"date-time\\\"}, \\\"raw_bytes\\\": {\\\"type\\\": \\\"integer\\\", \\\"minimum\\\": 0}, \\\"from\\\": {\\\"enum\\\": [\\\"drone-2\\\"]}, \\\"kind\\\": {\\\"enum\\\": [\\\"state\\\"]}, \\\"body\\\": {\\\"type\\\": \\\"object\\\", \\\"required\\\": [\\\"phase\\\", \\\"station\\\", \\\"x\\\", \\\"y\\\"], \\\"additionalProperties\\\": false, \\\"properties\\\": {\\\"phase\\\": {\\\"enum\\\": [\\\"idle\\\", \\\"moving\\\", \\\"paused\\\", \\\"arrived\\\"]}, \\\"station\\\": {\\\"enum\\\": [1, 2, null]}, \\\"x\\\": {\\\"type\\\": \\\"number\\\", \\\"minimum\\\": 0, \\\"maximum\\\": 1}, \\\"y\\\": {\\\"type\\\": \\\"number\\\", \\\"minimum\\\": 0, \\\"maximum\\\": 1}}}}}]}\")"
               },
               {
                 "mapping": "root = if errored() || content().length() >= 1024 { deleted() } else { this }"
@@ -68,7 +68,7 @@
           }
         },
         {
-          "mapping": "# All coordination runs in this serial Edge processor.\nlet s = this.saved\nlet e = this.event\nlet now = timestamp_unix_milli()\nlet tick = $e.tick.or(false)\nlet card = $e.from.or(\"\") == \"camera-1\"\nlet mic = $e.from.or(\"\") == \"mic-1\"\nlet stop = $mic && $e.body.value.or(\"\") == \"stop\"\nlet valid = $e.body.confidence.or(0) >= env(\"CONFIDENCE_THRESHOLD\").number()\nlet unclear = !$tick && ($card || $mic) && (!$valid || $e.body.value == null)\nlet go = $mic && $valid && $e.body.value.or(\"\") == \"go\"\nlet blocked = $now - $s.last_stop < 1500\nlet due = $tick && $s.pending > 0 && $now >= $s.pending && !$blocked\nroot.saved = $s\nroot.action = \"\"\nroot.emit = !$tick || $due\nroot.saved = if $stop {\n  $s.assign({\"phase\":\"paused\", \"reason\":\"stop wins\", \"pending\":0, \"last_stop\":$now})\n} else if $unclear {\n  $s.assign({\"phase\":\"uncertain\", \"reason\":\"below confidence threshold or unreadable input\", \"pending\":0, \"clear\":false})\n} else if $card && $valid {\n  $s.assign({\"destination\":$e.body.value, \"phase\":\"ready\", \"reason\":\"destination selected\", \"pending\":0, \"clear\":true})\n} else if $go && $blocked {\n  $s.assign({\"phase\":\"paused\", \"reason\":\"stop wins within 1.5 seconds\", \"pending\":0})\n} else if $go && $s.destination == null {\n  $s.assign({\"phase\":\"ready\", \"reason\":\"no destination yet\", \"pending\":0})\n} else if $go && !$s.clear {\n  $s.assign({\"phase\":\"uncertain\", \"reason\":\"waiting for a confident card\", \"pending\":0})\n} else if $go {\n  $s.assign({\"reason\":\"checking stop window\", \"pending\":if $s.pending > 0 { $s.pending } else { $now + 1500 }})\n} else if $due {\n  $s.assign({\"phase\":\"moving\", \"reason\":\"go accepted\", \"pending\":0})\n} else { $s }\nroot.action = if $stop || ($go && $blocked) { \"pause\" } else if $unclear || ($card && $valid) { \"hold\" } else if $due { \"move_to\" } else { \"\" }\n"
+          "mapping": "# All coordination runs in this serial Edge processor.\nlet s = this.saved\nlet e = this.event\nlet now = timestamp_unix_milli()\nlet tick = $e.tick.or(false)\nlet card = $e.from.or(\"\") == \"camera-1\"\nlet mic = $e.from.or(\"\") == \"mic-1\"\nlet state = $e.kind.or(\"\") == \"state\"\nlet stop = $mic && $e.body.value.or(\"\") == \"stop\"\nlet valid = $e.body.confidence.or(0) >= env(\"CONFIDENCE_THRESHOLD\").number()\nlet changed_card = $card && $valid && $e.body.value != null && ($e.body.value != $s.destination || !$s.clear)\nlet unclear = !$tick && ($card || $mic) && (!$valid || $e.body.value == null)\nlet go = $mic && $valid && $e.body.value.or(\"\") == \"go\"\nlet blocked = $now - $s.last_stop < 1500\nlet due = $tick && $s.pending > 0 && $now >= $s.pending && !$blocked\nroot.saved = $s\nroot.action = \"\"\nroot.emit = (!$tick && !$state && !($card && $valid && !$changed_card && $e.body.value != null)) || $due\nroot.saved = if $stop {\n  $s.assign({\"phase\":\"paused\", \"reason\":\"stop wins\", \"pending\":0, \"last_stop\":$now})\n} else if $unclear {\n  $s.assign({\"phase\":\"uncertain\", \"reason\":\"below confidence threshold or unreadable input\", \"pending\":0, \"clear\":false})\n} else if $changed_card {\n  $s.assign({\"destination\":$e.body.value, \"phase\":\"ready\", \"reason\":\"destination selected\", \"pending\":0, \"clear\":true})\n} else if $go && $blocked {\n  $s.assign({\"phase\":\"paused\", \"reason\":\"stop wins within 1.5 seconds\", \"pending\":0})\n} else if $go && $s.destination == null {\n  $s.assign({\"phase\":\"ready\", \"reason\":\"no destination yet\", \"pending\":0})\n} else if $go && !$s.clear {\n  $s.assign({\"phase\":\"uncertain\", \"reason\":\"waiting for a confident card\", \"pending\":0})\n} else if $go {\n  $s.assign({\"reason\":\"checking stop window\", \"pending\":if $s.pending > 0 { $s.pending } else { $now + 1500 }})\n} else if $due {\n  $s.assign({\"phase\":\"moving\", \"reason\":\"go accepted\", \"pending\":0})\n} else { $s }\nroot.action = if $stop || ($go && $blocked) { \"pause\" } else if $unclear || $changed_card { \"hold\" } else if $due { \"move_to\" } else { \"\" }\n"
         },
         {
           "cache": {
@@ -79,79 +79,30 @@
           }
         },
         {
-          "mapping": "let s = this.saved\nlet action = this.action\nlet decision = {\"v\":1,\"id\":uuid_v4(),\"ts\":now(),\"from\":\"coordinator\",\"kind\":\"decision\",\"body\":{\"destination\":$s.destination,\"phase\":$s.phase,\"reason\":$s.reason},\"raw_bytes\":0}\nlet commands = [\"rover-1\",\"drone-1\",\"drone-2\"].map_each(target -> {\"v\":1,\"id\":uuid_v4(),\"ts\":now(),\"from\":\"coordinator\",\"kind\":\"command\",\"body\":{\"target\":target,\"action\":$action,\"station\":$s.destination},\"raw_bytes\":0})\nroot = if !this.emit { deleted() } else if $action == \"\" { [$decision] } else { [$decision].concat($commands) }\n"
+          "mapping": "let s = this.saved\nlet action = this.action\nlet stamp = now().ts_format(\"2006-01-02T15:04:05.999999999Z07:00\", \"UTC\")\nlet decision = {\"v\":1,\"id\":uuid_v4(),\"ts\":$stamp,\"from\":\"coordinator\",\"kind\":\"decision\",\"body\":{\"destination\":$s.destination,\"phase\":$s.phase,\"reason\":$s.reason},\"raw_bytes\":0}\nlet commands = [\"rover-1\",\"drone-1\",\"drone-2\"].map_each(target -> {\"v\":1,\"id\":uuid_v4(),\"ts\":$stamp,\"from\":\"coordinator\",\"kind\":\"command\",\"body\":{\"target\":target,\"action\":$action,\"station\":$s.destination},\"raw_bytes\":0})\nroot = if !this.emit { deleted() } else if $action == \"\" { [$decision] } else { [$decision].concat($commands) }\n"
         },
         {
           "unarchive": {
             "format": "json_array"
           }
+        },
+        {
+          "split": {
+            "size": 1
+          }
         }
       ]
     },
     "output": {
-      "switch": {
-        "cases": [
-          {
-            "check": "this.kind == \"decision\"",
-            "output": {
-              "http_client": {
-                "url": "http://127.0.0.1:4190/events",
-                "verb": "POST",
-                "headers": {
-                  "Content-Type": "application/json"
-                },
-                "max_in_flight": 1,
-                "timeout": "3s",
-                "retries": 0
-              }
-            }
-          },
-          {
-            "check": "this.body.target == \"rover-1\"",
-            "output": {
-              "http_client": {
-                "url": "http://127.0.0.1:4111/events",
-                "verb": "POST",
-                "headers": {
-                  "Content-Type": "application/json"
-                },
-                "max_in_flight": 1,
-                "timeout": "3s",
-                "retries": 0
-              }
-            }
-          },
-          {
-            "check": "this.body.target == \"drone-1\"",
-            "output": {
-              "http_client": {
-                "url": "http://127.0.0.1:4121/events",
-                "verb": "POST",
-                "headers": {
-                  "Content-Type": "application/json"
-                },
-                "max_in_flight": 1,
-                "timeout": "3s",
-                "retries": 0
-              }
-            }
-          },
-          {
-            "check": "this.body.target == \"drone-2\"",
-            "output": {
-              "http_client": {
-                "url": "http://127.0.0.1:4122/events",
-                "verb": "POST",
-                "headers": {
-                  "Content-Type": "application/json"
-                },
-                "max_in_flight": 1,
-                "timeout": "3s",
-                "retries": 0
-              }
-            }
-          }
-        ]
+      "http_client": {
+        "url": "http://127.0.0.1:${! if json(\"kind\") == \"decision\" {4190} else if json(\"body.target\") == \"rover-1\" {4111} else if json(\"body.target\") == \"drone-1\" {4121} else {4122} }/events",
+        "verb": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "max_in_flight": 1,
+        "timeout": "3s",
+        "retries": 0
       }
     }
   }

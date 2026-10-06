@@ -24,12 +24,32 @@
         },
         {
           "mapping": "root = if errored() { deleted() } else { this }"
+        },
+        {
+          "branch": {
+            "processors": [
+              {
+                "http": {
+                  "url": "http://127.0.0.1:4190/events",
+                  "verb": "POST",
+                  "headers": {
+                    "Content-Type": "application/json"
+                  },
+                  "timeout": "3s",
+                  "retries": 0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "mapping": "root = if errored() || this.kind == \"command\" { deleted() } else { this }"
         }
       ]
     },
     "output": {
       "http_client": {
-        "url": "http://127.0.0.1:4190/events",
+        "url": "http://127.0.0.1:4100/events",
         "verb": "POST",
         "headers": {
           "Content-Type": "application/json"
