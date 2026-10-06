@@ -35,9 +35,13 @@ export function route(envelope) {
 
 export function observe(bus, onEnvelope) {
   const accounting = createAccounting();
+  let active = true;
 
   const subscriptions = ['recognition', 'decision', 'command', 'state'].map(kind => {
-    const handler = envelope => onEnvelope(envelope, accounting.add(envelope), accounting.snapshot());
+    const handler = envelope => {
+      if (active) onEnvelope(envelope, accounting.add(envelope), accounting.snapshot());
+    };
+
     const unsubscribe = bus.on(kind, handler);
 
     return () => {
@@ -45,5 +49,8 @@ export function observe(bus, onEnvelope) {
     };
   });
 
-  return { snapshot: accounting.snapshot, destroy: () => subscriptions.forEach(off => off()) };
+  return { snapshot: accounting.snapshot, destroy: () => {
+    active = false;
+    subscriptions.forEach(off => off());
+  } };
 }

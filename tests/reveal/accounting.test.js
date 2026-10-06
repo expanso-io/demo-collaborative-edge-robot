@@ -31,3 +31,12 @@ test('routes describe input, targeted commands, state back, and local decisions'
   assert.deepEqual(route(fixtures[4]), ['coordinator', 'drone-1']);
   assert.deepEqual(route(fixtures[8]), ['drone-2', 'coordinator']);
 });
+
+test('bus with no unsubscribe return stops accounting after destroy', () => {
+  const handlers = new Map();
+  const bus = { on: (kind, handler) => { handlers.set(kind, handler); } };
+  const observer = observe(bus, () => {});
+  observer.destroy();
+  handlers.get('recognition')(fixtures[0]);
+  assert.equal(observer.snapshot().count, 0);
+});

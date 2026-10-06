@@ -55,3 +55,4 @@
 @media (prefers-reduced-motion: reduce) {
   .reveal-packet { display: none; }
 }
+.reveal-device { white-space: nowrap; }
