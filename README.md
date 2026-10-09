@@ -119,3 +119,7 @@ maintainers who have that kit installed beside this repository.
 The public workflow checks all five criteria. A separate Stage 1 workflow
 runs the recognizer, coordination, adapter and accounting suites. Local proof
 is recorded under `docs/proof/`; hosted CI evidence begins after publication.
+
+### Sticky localhost ports
+
+`ports.json` declares the fourteen local services. Local startup retains assignments outside runtime cleanup, so `just down-local` and `just up-local` preserve the presenter URL. Cloud deployment renders the same assigned receiver URLs. `just ports` shows assignments. Browser endpoint configuration comes from the presenter; saved-port collisions refuse startup rather than moving bookmarks.

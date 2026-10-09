@@ -12,11 +12,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def down():
     runtime.stop()
-    occupied = [port for port in sorted(set(range(4100, 4200)) | set(runtime.PORTS))
+    occupied = [port for port in runtime.PORTS
                 if runtime.listening(port)]
     if occupied:
         raise RuntimeError(f'Ports still listening: {occupied}; stop their owner explicitly.')
-    print('PASS ports 4100-4199 and all six Edge APIs are free.')
+    print('PASS assigned services and all six Edge APIs are free.')
 
 
 def up():
@@ -41,8 +41,8 @@ def up():
                 raise RuntimeError(f'Launcher exited: {log_path.read_text()[-4000:]}')
             if ready.exists():
                 runtime.request('http://127.0.0.1:4180/')
-                print('Ready: http://127.0.0.1:4180/')
-                print('Explorer: http://127.0.0.1:4180/example.html')
+                print(f'Ready: {runtime.ORIGIN}/')
+                print(f'Explorer: {runtime.ORIGIN}/example.html')
                 print('Log: .runtime/launcher.log; stop with just down')
                 return
             time.sleep(.1)
