@@ -1,12 +1,13 @@
+import { servicePort } from "./port-config.js";
 import { createBus } from "./bus.js";
 import { mountStage } from "./stage/map.js";
 
 const endpoints = {
-  "camera-1": 4101,
-  "mic-1": 4102,
-  "rover-1": 4111,
-  "drone-1": 4121,
-  "drone-2": 4122,
+  "camera-1": servicePort(4101),
+  "mic-1": servicePort(4102),
+  "rover-1": servicePort(4111),
+  "drone-1": servicePort(4121),
+  "drone-2": servicePort(4122),
 };
 
 const get = (id) => document.getElementById(id);

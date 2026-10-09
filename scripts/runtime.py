@@ -14,19 +14,39 @@ import threading
 import time
 import urllib.request
 import uuid
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from port_assignments import service_port, mapped
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIME = ROOT / ".runtime"
 NODES = {"coordinator": (4100, 4200), "camera-1": (4101, 4201), "mic-1": (4102, 4202),
          "rover-1": (4111, 4203), "drone-1": (4121, 4204), "drone-2": (4122, 4205)}
-PORTS = [4180, 4190] + [port for pair in NODES.values() for port in pair]
-ORIGIN = "http://127.0.0.1:4180"
+NODES = {name: tuple(service_port(port) for port in pair) for name, pair in NODES.items()}
+BOARD_PORT = service_port(4180)
+BUS_PORT = service_port(4190)
+PORTS = [BOARD_PORT, BUS_PORT] + [port for pair in NODES.values() for port in pair]
+ORIGIN = f"http://127.0.0.1:{BOARD_PORT}"
 PROXYLESS = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+
+
+class PresenterHandler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if self.path.split("?", 1)[0] == "/port-config.js":
+            ports = {str(value): service_port(value) for value in (4100, 4101, 4102, 4111, 4121, 4122, 4180, 4190)}
+            body = ("const ports = " + json.dumps(ports) + ";\nexport const servicePort = (port) => ports[port] ?? port;\n").encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/javascript")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+        else:
+            super().do_GET()
 
 
 def request(url, data=None, method=None):
     headers = {"Content-Type": "application/json"}
-    with PROXYLESS.open(urllib.request.Request(url, data=data, headers=headers, method=method), timeout=3) as response:
+    with PROXYLESS.open(urllib.request.Request(mapped(url), data=data, headers=headers, method=method), timeout=3) as response:
         return response.read()
 
 
@@ -187,11 +207,11 @@ def run():
     signal.signal(signal.SIGINT, lambda *_: stopping.set())
     bus = Bus()
     try:
-        bus_server = http.server.ThreadingHTTPServer(("127.0.0.1", 4190), Handler)
+        bus_server = http.server.ThreadingHTTPServer(("127.0.0.1", BUS_PORT), Handler)
         bus_server.bus = bus
         servers.append(bus_server)
-        static = http.server.ThreadingHTTPServer(("127.0.0.1", 4180), functools.partial(
-            http.server.SimpleHTTPRequestHandler, directory=str(ROOT / "web")))
+        static = http.server.ThreadingHTTPServer(("127.0.0.1", BOARD_PORT), functools.partial(
+            PresenterHandler, directory=str(ROOT / "web")))
         servers.append(static)
         for server in servers:
             threading.Thread(target=server.serve_forever, daemon=True).start()
@@ -212,7 +232,7 @@ def run():
             if stopping.wait(.1) or any(child.poll() is not None for child in children) or time.monotonic() > deadline:
                 raise RuntimeError("Edge startup failed; inspect .runtime/*.log")
         for node, (_, api) in NODES.items():
-            spec = json.loads((ROOT / "pipelines" / f"{node}.yaml").read_text())
+            spec = mapped(json.loads((ROOT / "pipelines" / f"{node}.yaml").read_text()))
             request(f"http://127.0.0.1:{api}/api/v1/jobs", json.dumps({"spec": spec}).encode(), method="PUT")
         deadline = time.monotonic() + 20
         while not all(listening(port) for port, _ in NODES.values()):

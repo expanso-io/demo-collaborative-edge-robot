@@ -5,22 +5,23 @@ _default:
 
 # Deploy or update all six pipelines in Expanso Cloud.
 up:
-    bash scripts/cloud-up.sh
+    uv run --no-project scripts/port-run.py read bash scripts/cloud-up.sh
 
 # Start six local nodes and the presenter in the background; retain logs.
 up-local:
-    uv run --offline --no-project scripts/lifecycle.py up
+    uv run --no-project scripts/port-run.py start uv run --offline --no-project scripts/lifecycle.py up
 
 # Stop this demo's six Cloud jobs.
 down:
-    bash scripts/cloud-down.sh
+    uv run --no-project scripts/port-run.py read bash scripts/cloud-down.sh
 
 # Stop only this checkout's local launcher and verify the demo port range.
 down-local:
-    uv run --offline --no-project scripts/lifecycle.py down
+    uv run --no-project scripts/port-run.py read uv run --offline --no-project scripts/lifecycle.py down
 
 # Stop the presenter before running checks; the pipeline suite owns its ports.
 check:
+    uv run --no-project tests/test_ports.py
     uv run --offline --no-project tests/pipelines/run.py
     node --test tests/vision/vision.test.mjs
     node tests/audio/verify.mjs
@@ -30,7 +31,7 @@ check:
 
 # Checks need exclusive ports, then leave a fresh presenter ready to record.
 record-check: down-local check up-local
-    curl -fsS http://127.0.0.1:4180/ > /dev/null
+    uv run --no-project scripts/port-run.py read bash -c 'curl -fsS "http://127.0.0.1:${ROBOT_DASHBOARD_PORT}/"' > /dev/null
     @echo "RECORD CHECKLIST"
     @echo "  [ ] Light theme, readable projector text, printed cards ready"
     @echo "  [ ] Camera and microphone permissions granted and tested live"
@@ -46,3 +47,6 @@ public-check:
     npm install --prefix .runtime/public-tools --no-save --ignore-scripts axe-core@4.10.3
     uv run --with playwright==1.55.0 playwright install chromium
     PUBLIC_BAR_AXE_PATH="$PWD/.runtime/public-tools/node_modules/axe-core/axe.min.js" uv run -s .demo-kit/public-bar.py --repo . --manifest public-bar.toml --report artifacts/public-bar.md
+
+ports:
+    uv run --no-project scripts/demo-ports.py resolve --demo-dir . --format json --allow-bound

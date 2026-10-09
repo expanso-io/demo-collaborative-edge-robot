@@ -1,6 +1,8 @@
+import { servicePort } from "./port-config.js";
 /** One SSE connection shared by device displays, adapters and the reveal. */
+
 export function createBus(
-  url = "http://127.0.0.1:4190/stream",
+  url = `http://127.0.0.1:${servicePort(4190)}/stream`,
   Source = EventSource,
 ) {
   const listeners = new Map();
