@@ -14,6 +14,32 @@ document.querySelector('#stop').onclick = () => stop();
 
 const delay = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 
+let scores = [];
+
+let fixtureStartedAt = 0;
+
+const createRecognizer = globalThis.speechCommands.create;
+
+// Observe the real recognizer without changing its backend, scores, or gate.
+globalThis.speechCommands.create = (...args) => {
+  const recognizer = createRecognizer(...args);
+  const recognize = recognizer.recognize.bind(recognizer);
+  recognizer.recognize = async (...input) => {
+    const startedAt = performance.now();
+    const result = await recognize(...input);
+    const best = result.scores.indexOf(Math.max(...result.scores));
+    scores.push({
+      atMs: Math.round(startedAt - fixtureStartedAt),
+      inferenceMs: Math.round(performance.now() - startedAt),
+      value: recognizer.wordLabels()[best], confidence: result.scores[best],
+    });
+
+    return result;
+  };
+
+  return recognizer;
+};
+
 async function runFixtures() {
   await stop();
   const original = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
@@ -55,6 +81,7 @@ async function runFixtures() {
     pass: results.every(result => result.pass) && streamsReleased && localResourcesOnly,
     testedAt: new Date().toISOString(),
     browser: navigator.userAgent,
+    backend: globalThis.tf.getBackend(),
     streamsReleased, localResourcesOnly, results,
   };
 
@@ -70,13 +97,19 @@ async function runFixtures() {
     const source = context.createBufferSource();
     source.buffer = buffer;
     source.connect(destination);
+    scores = [];
+    fixtureStartedAt = performance.now();
+    let playbackMs = null;
+
+    source.onended = () => { playbackMs = Math.round(performance.now() - fixtureStartedAt); };
+
     source.start();
     await delay(buffer.duration * 1000 + 1400);
     source.disconnect();
     const heard = events.map(event => ({ value: event.body.value, confidence: event.body.confidence, raw_bytes: event.raw_bytes }));
     const pass = expected ? heard.length === 1 && heard[0].value === expected : heard.length === 0;
 
-    return { fixture: `${name}.wav`, expected, heard, pass };
+    return { fixture: `${name}.wav`, expected, heard, scores, playbackMs, durationMs: Math.round(buffer.duration * 1000), pass };
   }
 }
 
