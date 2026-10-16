@@ -24,7 +24,9 @@ check:
     uv run --no-project tests/test_ports.py
     uv run --offline --no-project tests/pipelines/run.py
     node --test tests/vision/vision.test.mjs
+    node --test tests/audio/*.test.mjs
     node tests/audio/verify.mjs
+    AUDIO_PROOF_STALL_MS=65 node tests/audio/verify.mjs
     node --test tests/stage/adapter.test.mjs
     node --test tests/reveal/accounting.test.js
     uv run --offline --no-project tests/public-contract.py

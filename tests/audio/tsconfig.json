@@ -11,6 +11,9 @@
   "files": [
     "../../web/devices/mic.js",
     "../../web/devices/mic/gate.js",
-    "../../web/devices/mic/vendor-globals.d.ts"
+    "../../web/devices/mic/vendor-globals.d.ts",
+    "../../web/devices/mic/capture-worklet.js",
+    "../../web/devices/mic/spectrum.mjs",
+    "../../web/devices/mic/audio-worklet-globals.d.ts"
   ]
 }

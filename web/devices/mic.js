@@ -90,9 +90,9 @@ async function begin(postEvent, token) {
     }
 
     try {
-      closeCapture = await captureKeywords(recognizer, stream, scores => {
+      closeCapture = await captureKeywords(recognizer, stream, (scores, atMs) => {
         if (token !== generation) return;
-        const keyword = gate(labels, scores, performance.now());
+        const keyword = gate(labels, scores, atMs);
 
         if (!keyword) return;
         show(`Last heard: ${keyword.value} (${Math.round(keyword.confidence * 100)}%).`);

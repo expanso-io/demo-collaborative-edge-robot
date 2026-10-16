@@ -24,6 +24,17 @@ try {
   const [data] = await once(server.stdout, 'data');
   const url = data.toString().trim();
   await browser('--args', '--autoplay-policy=no-user-gesture-required', 'open', url);
+  const stallMs = Number(process.env.AUDIO_PROOF_STALL_MS ?? 0);
+
+  if (!Number.isFinite(stallMs) || stallMs < 0 || stallMs > 80) throw new Error('AUDIO_PROOF_STALL_MS must be between 0 and 80');
+
+  if (stallMs) {
+    await browser('eval', `setInterval(() => {
+      const until = performance.now() + ${stallMs};
+      while (performance.now() < until) Math.sqrt(performance.now());
+    }, 100); true`);
+  }
+
   await browser('click', '#fixtures');
 
   // Poll with short evaluate calls: one long awaited evaluate outlives the
@@ -40,7 +51,20 @@ try {
   }
 
   await writeFile(new URL('./results.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
+  console.log(`WAV inference backend: ${report.backend ?? 'unknown'}`);
   console.log(`${report.results?.filter(item => item.pass).length ?? 0}/${report.results?.length ?? 0} WAV fixtures passed`);
+
+  for (const result of report.results ?? []) {
+    console.log(`${result.pass ? 'PASS' : 'FAIL'} ${result.fixture}: expected=${JSON.stringify(result.expected)} heard=${JSON.stringify(result.heard)}`);
+
+    if (!result.pass) console.error(`Scores for ${result.fixture}: ${JSON.stringify({ playbackMs: result.playbackMs, durationMs: result.durationMs, scores: result.scores })}`);
+  }
+
+  if (report.error) console.error(`WAV proof error: ${report.error}`);
+
+  if (report.streamsReleased === false) console.error('WAV proof left capture streams running');
+
+  if (report.localResourcesOnly === false) console.error('WAV proof loaded non-local resources');
 
   if (!report.pass) process.exitCode = 1;
 } finally {
