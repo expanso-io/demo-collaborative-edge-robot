@@ -42,6 +42,16 @@ try {
   await writeFile(new URL('./results.json', import.meta.url), JSON.stringify(report, null, 2) + '\n');
   console.log(`${report.results?.filter(item => item.pass).length ?? 0}/${report.results?.length ?? 0} WAV fixtures passed`);
 
+  for (const result of report.results ?? []) {
+    console.log(`${result.pass ? 'PASS' : 'FAIL'} ${result.fixture}: expected=${JSON.stringify(result.expected)} heard=${JSON.stringify(result.heard)}`);
+  }
+
+  if (report.error) console.error(`WAV proof error: ${report.error}`);
+
+  if (report.streamsReleased === false) console.error('WAV proof left capture streams running');
+
+  if (report.localResourcesOnly === false) console.error('WAV proof loaded non-local resources');
+
   if (!report.pass) process.exitCode = 1;
 } finally {
   try { await browser('close'); } finally {
